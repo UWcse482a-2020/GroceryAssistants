@@ -1,0 +1,126 @@
+\documentclass{article}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{mathpazo}
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{mathtools}
+\usetikzlibrary{positioning, arrows}
+\usepackage{color}
+\usepackage{titling}
+\usepackage{xcolor}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage[makeroom]{cancel}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\usepackage{float}
+\usepackage[margin=.9in]{geometry}
+
+\date{{\today}}
+\setlength\parindent{0px}
+\setlength\parskip{1em}
+
+\setlength{\droptitle}{-5em}   % This is your set screw
+
+\begin{document}
+\allowdisplaybreaks
+\title{Group Assignment \#2: Problem Scoping, Needs Assessment and Technical Specifications}
+\author{\normalsize{CSE 482A: Capstone Software Design To Empower Underserved Populations}\\
+\normalsize{Mariam Mayanja, Geovani Castro, Linxing Preston Jiang} \\
+\normalsize{\texttt{\{mariam35, geocas47, prestonj\}@cs.washington.edu}}}
+\maketitle
+\section{Objectives}
+In this assignment, the team conducts a needs assessment interview with the Needs Expert to glean a prioritized list of tasks, needs and contexts to inform the design of a technology solution. \par
+We have been preparing for the Needs Expert interview(s) with last week's in-class assignment. We referred to the lecture “User Centered and Participatory Design" to inform our decisions. 
+\section{Framing Description of end-user's relationship to the task and the related technology in the Need Expert's words. }
+
+Our needs expert is a Mexican single mother with limited experience with technology. Despite that she still has access to a smartphone, indicating that there is a good chance that many other mothers on WIC also have access to smartphones. As far as demographics of WIC participants, 58.6\% were white, 20.8\% were black, and 10.3\% were American Indian or Alaskan Native, 4.5\% Asian or Pacific Islander in 2016.  Of these people, 41.7\% of WIC participants identified as hispanic or latino according to the United States Department of Agriculture. WIC participants can come from any culture, and \href{https://fns-prod.azureedge.net/sites/default/files/ops/WICPC2016-Summary.pdf}{according to} the United States Department of Agriculture, most participants are English and Spanish speaking. These populations have historically been neglected by technological corporations and are in need of any assistance, especially given the current conditions of grocery stores due to food scarcity inflicted by COVID-19.\par
+
+According to the \href{https://www.pewresearch.org/internet/fact-sheet/mobile/}{Pew Research Center}, about 81\% of Americans own a smartphone. Due to this overwhelmingly high statistic, we will assume that societally there is enough smartphone literacy for the average American to navigate one without outside assistance. Especially considering that the average WIC participant is between the ages of 18 and 34 according to the \href{https://fns-prod.azureedge.net/sites/default/files/PC98_Summary.pdf}{United States Department of Agriculture}. However, access to computers and laptops is more rare as smartphones are the most popular form of technology for the average person and far more affordable. \par
+
+We can assume that the community of people on WiC are familiar with a few apps associated with the program, as they are required to utilize them in order to set up the card on their phones. Our needs expert mentioned the WiC shopper app, which allows some basic functionality such as barcode scanning to check that a specific grocery item is supported, budgeting, finding local WiC stores among other features. Developing an app that is supported on both iOS and Android is the most important task so that we don’t estrange any potential users. \par
+
+There is no sort of physical activity expected for our target user other than being able to navigate to the stores in question to conduct their shopping. Having a car is ideal and most have it, but realistically we can accomodate people taking the bus as well as we are simply spitting out a list of grocery stores for them to visit. We will prioritize displaying stores that are nearby the user to make this trek more endurable. 
+
+\section{Contextual Inquiry}
+
+We spoke with Blanca Alvarez, a hispanic single mother living Othello, WA. Alvarez is in her early 40s and has an infant at home. We spoke about her experience shopping with WIC benefits both before and after the novel coronavirus and how panic buying has impacted her. Since she does her grocery shopping in a small town with far fewer cases of COVID-19 than the Seattle area and far fewer resources, it is possible that her experience varies slightly from that of the average person on WIC in Seattle. Nonetheless, based on my other research from both scholarly and news articles it seems that a lot of her experience is transferable to a larger, metropolitan area. \par
+In Alvarez’s experience, it has been hard to mitigate the effects of panic buying due to novel coronavirus. Food items she considers essential to herself and her child such as milk, nursery water, and baby formula,  are frequently out of stock. She describes this issue as being hard because it presents a feeling of loss of control. For example, with the lack of nursery water the options to feed her baby decrease to tap or bottled water mixed with formula. Othertimes, the small family will have to go 2-3 days without milk because there is not any in stock. This raises a question for Alvarez, how will I get the food I need for myself and my baby? 
+Currently, Alvarez tries to mitigate the impact of panic buying in two ways.  The first is by using her personal connections. Although she is currently on maternity leave, she is a Walmart associate and knows both people on the floor and unloading the delivery trucks.  According to Alvarez, the only way she was able to secure even a gallon of nursery water was by texting one of her coworkers that unloads the truck. They let her know when the items were coming off the truck and when to expect them to hit the floor. With this information, Alvarez timed her trip to the grocery store and was able to get a gallon. \par
+The second thing she is able to do to improve her shopping experience is use the Walmart app. She uses the Walmart app for employees to check the quantity of items. This app also contains information such as if it is on a delivery truck. There is also the Walmart app that is open to everyone, but that one has much less quantity information. She finds this app to be about 80\% accurate. If the quantity is low (1 or 2 items in stock) it is possible that it is already in someone else’s cart or in the return cart. \par
+Even though Alvarez is able to use Walmart apps to aid her shopping experience, she would still like to see an app that can work across various stores that will inform her if a product is in stock,in transit, when the store might receive it, and where it is located in the store. Alvarez says it is easy to find where things are located within Walmart because she works there, but for other people it is important to know where something might be located to reduce exposure.  She thinks developing something like this is important because then people do not need to expose themselves as much and can reduce the risk of bringing the virus home. \par
+Alvarez believes this approach would be beneficial to other people on WIC, especially those that don’t have her same resources as a grocery store employee. While she believes that most people can call into the store to ask about stock and quantity, she recognizes that a lot of the people answering phones at the store don’t always know how to predict when they will get another shipment. This means that they have to keep calling back every day until they are able to secure what they need. However, in Seattle some grocery stores such as Fred Meyer have a strict policy against telling customers about stock. In these situations it is impossible to tell or gauge when food will become available. This situation serves as motivation for our application (see \hyperref[sec:goal2]{Goal \#2}). \par
+WIC has also made efforts to improve shopping experiences for people. Alvarez was excited to share information about the WIC Shopper app, which she uses now instead of the old WIC check system. While the WIC Shopper app is helpful, it still does not have capabilities that Alvarez expressed interest in for our app. WIC used to be on a check system, where individuals would get one check they would need to cash out in full. This meant that for Alvarez, she would need to buy 3-4 cartons of milk at a time or forfeit them. With low stock this was an issue since sometimes the store would only have one carton or none. Additionally, the WIC shopper app has a scanning function where shoppers can scan a barcode to see if items are WIC eligible. The new card system makes shopping easier because now shoppers know what items are WIC eligible prior to putting them in the cart and because they are able to do WIC and regular shopping together. Under the old check system, shoppers used to need to separate out WIC and regular purchases. \par
+It seems like many of Alvarez’s concerns can be mitigated better with predictive modeling for inventory in an application modeled similarly to what already exists for WIC shoppers, which we will address next in our task analysis. \par
+
+\section{Task Analysis}
+The main task of our project is to make grocery shopping easier for people who use food assistance programs during emergencies such as the COVID-19 pandemic we are currently experiencing. Some food assistance programs such as The Special Supplemental Nutrition Program for Women, Infants, and Children (WIC) impose restrictions on the types of food and products people are allowed to purchase. Therefore, shopping for eligible products in these programs is particularly difficult when the general public panic-buys during emergencies, which usually creates a shortage of WIC-eligible products. Our project aims to provide a web-based application that provides WIC food eligibility information and helps the users quickly identify the easiest store to shop at that has the needed products in stock. \par
+We have also deliberated over the scope of our application, as suggested by the course staff that we could potentially expand the service to other food assistance services besides WIC. However, services like Electronic Benefit Transfer (EBT) have fewer restrictions on the types of products, thus are less affected by panic buying. With limited time remaining, we have decided to primarily focus on building the platform for WIC buyers but are open to expand the range of supported food services if time allows. 
+\subsection*{Goal 1: Allowing users to explore and check eligible food products}
+
+WIC shopping guides come in the form of PDF documents and WIC-eligible products are typically poorly marked in stores. This makes the process of identifying eligible products tedious and time consuming for shoppers. Our first goal is to allow the users to explore all eligible food types through a WIC food database. In addition, the application will have a barcode scanner that scans the barcode and returns the eligibility information to the user.
+
+\subsubsection*{Subtask 1: Creating a database for WIC eligible products}
+This will serve as the database for querying product information (also food availability, discussed later). The important point to address is that the database structure should be general enough to allow multiple forms of display of information (e.g. simple text boxes of information vs. picture-caption based information). This is an implementation step and so does not require any user activities. It builds the foundation for other functionalities described below.
+
+Existing potential database (CSV files) for product information:
+\begin{itemize}
+    \item \href{https://fdc.nal.usda.gov/}{https://fdc.nal.usda.gov/}
+    \item \href{https://healthdata.gov/dataset/women-infants-children-WIC-vendor-information}{https://healthdata.gov/dataset/women-infants-children-WIC-vendor-information}
+    \item \href{https://healthdata.gov/dataset/wic-authorized-product-list-apl}{https://healthdata.gov/dataset/wic-authorized-product-list-apl}
+\end{itemize}
+Other existing resources for WIC eligibilities, but less structured information:
+\begin{itemize}
+    \item \href{https://www.fns.usda.gov/wic/wic-food-packages-regulatory-requirements-wic-eligible-foods}{https://www.fns.usda.gov/wic/wic-food-packages-regulatory-requirements-wic-eligible-foods}
+    \item \href{https://www.doh.wa.gov/portals/1/Documents/Pubs/960-278-ShoppingGuide.pdf}{https://www.doh.wa.gov/portals/1/Documents/Pubs/960-278-ShoppingGuide.pdf}
+\end{itemize}
+
+\subsubsection*{Subtask 2: A hierarchical catalog for the users to explore WIC-eligible food products}
+\label{sec:goal}
+Here, the database information will be organized in a tree structure so that users can explore all food products from larger types (dairy, vegetables, etc.) to smaller types (milk, broccoli, etc.). We made this decision based on the tradeoff between having a searching feature for quick identifications of product types but having to deal with the pitfalls of typos and approximate searching.\par
+The users will be presented with a grid-like structure containing pictures and texts of food categories, represented as buttons. Clicking on a button will take the user to the next level of categories within the type clicked. There will also be a “Return” button to go back to the previous level, and a “Save” button for the users to keep track of interested items. Here, we assume the users have the basic knowledge to classify the broad categories of the interested items (e.g. “Milk” belongs in “Dairy”) to navigate through the panels.
+
+\subsubsection*{Subtask 3: Using hardware APIs to create a barcode scanner}\label{sec:goal13}
+We will use front-end user interface frameworks such as React JS to create a barcode scanner to acquire product information.  We plan to use some existing React JS modules that have implemented such functionalities, for instance, \href{https://www.npmjs.com/package/react-barcode-reader}{https://www.npmjs.com/package/react-barcode-reader}\par
+After scanning, the application will issue a database query based on the returned information from barcode and will display the color-coded result of if the food product is eligible. If the application is unsure (an exact match/mismatch is not found), it will instead display general information about the type of product and purchase rules. To fulfill this step, we assume the users have functioning cameras on their phones.
+
+\subsection*{Goal 2: Location + user feedback services for determining food availabilities}
+\label{sec:goal2}
+In our interview with our need expert, Alvarez indicated that having a service that could provide food availability information would be extremely useful to help save time and limit traveling. The most straightforward way for shoppers would be to call in the stores and ask about availability. However, different grocery stores have different policies in food availability inquiries, with some explicitly stating that they are not allowed to provide that information. \par
+This situation has inspired us to think about potential solutions for this problem, in particular for the stores that would not provide the availability information explicitly. We decide to leverage user feedback to solve this problem: we rely on the users to give the application store-specific reports that if a certain product is not available at a certain store. Our application will then incorporate these user reports in the backend and provide an estimate, or a ``confidence score'' if a product will be available at a particular store for future users. We will further combine this information with the users’ location to make the best suggestion on where a product can be purchased most easily.\par
+
+\subsubsection*{Subtask 1: Asking for user’s location and ranking stores}
+When the user first downloads and opens the application, it will ask if the user would like to use location services, in which case the application will use the GPS module of the device to determine the location. Otherwise, the starting screen will prompt the user to manually enter his/her zip code. Based on the location, the application will rank the WIC approved vendors from closest to farthest and display the ranking in a map + scroll list format.
+
+\subsubsection*{Subtask 2: Food availability estimation}
+For every store and every product, we will keep track of if there have been any out-of-stock reports given by the users (discussed below) and use them to adjust a confidence score on if we believe the product is in fact out of stock. Besides the score, we will also show the time as “last updated” when there was a filed report by any user, from which we hope the users could make a more accurate decision. These information will be displayed after the user either selected a specific product (see \hyperref[sec:goal]{Goal 1 \#(2)}), or scanned a barcode (see \hyperref[sec:goal13]{Goal 1 \#(3)}). \par
+We presume the report or feedback given by the users would be in the form of a button clicking. Notice that we hope the users would not only report out-of-stock items for which we displayed a high score of availability, but also in-stock items for which we strongly estimated as out-of-stock. We think this may happen more often than we could imagine due to restocking, returns, or simply user mistakes. Once the user selects the item s/he would like to report, the application will prompt two “in stock” or “out of stock” buttons. The backend will then adjust the score for this product live and update it for all other users.\par
+
+\subsubsection*{Subtask 3: Recommending a store}
+The final subtask is to combine the availability information from (2) and the location information of (1) to make a final recommendation on the store for the product of interest, prioritizing the availability then geolocation. If the user chooses the recommended store, this will open Google Maps with the store information loaded for navigation. 
+
+\subsection*{General requirements \& constraints}
+\begin{itemize}
+    \item A smartphone with cameras. We choose to use a web-based application to avoid having to be constrained to either iOS or Android platform. If time allows, we will aim to make the web application compatible to various screen sizes, allowing access from laptops as well.
+    \item Internet access. Depending on the condition of users’ Internet access, the food availability information may be more or less obsolete. The computation for location ranking may also be delayed.
+\end{itemize}
+
+\subsection*{Foreseeable Obstacle}
+\begin{itemize}
+    \item Depending on how well structured the WIC food database is, matching the information obtained from barcode to specific items in the database may be challenging. For instance, WIC has requirements on the types of eligible cereals to be “boxed”, not “bagged”. If this information is not included in the barcode, the application cannot answer the eligibility with full confidence.\par
+    \textit{Potential solution}: in cases when an exact match cannot be determined, the application will display the type-specific information and leave it to the user to determine the eligibility.
+    \item It could be entirely possible that we do not have a large enough user base in the beginning to be used for accurate food availability estimation. 
+    \textit{Potential solution}: when the number of user reports is low, we will increase the weight of each report on its effect on the availability score. This is not a perfect solution and may lead to noisy estimates, and we will keep investigating in better ways to compensate for this. One example is to use the history of the trend of availabilities to estimate for the current day, when there is not yet any reports. 
+\end{itemize}
+
+\end{document}

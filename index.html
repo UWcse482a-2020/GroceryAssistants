@@ -8,6 +8,7 @@
   <title>WIC Panic Buying Assistant</title>
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
+  <script src="scripts/main.js"></script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -431,6 +432,26 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyA8RYeZcRmOBszVvfT3F2rYpd1V5TqPQoQ",
+        authDomain: "grocery-assistants.firebaseapp.com",
+        databaseURL: "https://grocery-assistants.firebaseio.com",
+        projectId: "grocery-assistants",
+        storageBucket: "grocery-assistants.appspot.com",
+        messagingSenderId: "661569106649",
+        appId: "1:661569106649:web:b5c4eacfe51205770404c8"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
 </body>
 
 </html>

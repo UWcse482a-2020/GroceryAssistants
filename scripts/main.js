@@ -37,8 +37,6 @@ async function searchForProduct() {
 
     if (snapshot.exists()) {
         snapshot.forEach(function(data) {
-            console.log(data.key);
-            console.log(data.val());
             searchResults.push(data.val());
             searchResultKeys.push(data.key);
         })
@@ -66,7 +64,8 @@ function rankStores() {
         lat = searchResults[i]["Latitude"];
         lng = searchResults[i]["Longitude"]; 
         d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
-        if (d < 10) {
+
+        if (d < 3) {
             keep.push(i);
         }
     }
@@ -78,10 +77,6 @@ function rankStores() {
         resultKeys.push(searchResultKeys[i]);
     }
 
-    console.log("###")
-    console.log(results)
-    console.log(resultKeys)
-
     result_tuple = [];
     for (var i = 0; i < results.length; i++) {
         result_tuple.push([results[i], resultKeys[i]])
@@ -89,7 +84,6 @@ function rankStores() {
 
     result_tuple.sort(function(a, b) {return b[0]["Quantity"] - a[0]["Quantity"]});
 
-    console.log(result_tuple[2]);
     // update html texts
     document.getElementById("FirstStore").innerText = "Store: " + String(result_tuple[0][0]["Store"]);
     document.getElementById("SecondStore").innerText = "Store: " + String(result_tuple[1][0]["Store"]);
@@ -159,19 +153,26 @@ function updateFourthQuantity() {
     document.getElementById("4thQuantVal").reset();
 }
 
-function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-    // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = deg2rad(lon2-lon1); 
-    var a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    var d = R * c; // Distance in km
-    return d;
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2, unit) {
+if ((lat1 == lat2) && (lon1 == lon2)) {
+        return 0;
+    }
+    else {
+        var radlat1 = Math.PI * lat1/180;
+        var radlat2 = Math.PI * lat2/180;
+        var theta = lon1-lon2;
+        var radtheta = Math.PI * theta/180;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+            dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        return dist;
+    }
 }
 
 function deg2rad(deg) {

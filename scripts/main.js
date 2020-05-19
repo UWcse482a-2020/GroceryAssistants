@@ -6,6 +6,8 @@ window.onload = function () {
     var db = firebase.database();
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
+
+    // try reading content
 }
 
 function getLocation() {
@@ -21,7 +23,15 @@ function storePosition(position) {
 
 function searchForProduct() {
     product = document.getElementById("product").value;
-    alert(product)
+    alert(product);
+    var db = firebase.database();
+    leadsRef = db.ref("/data");
+    leadsRef.orderByChild("UPC_PLU").equalTo(72220110616).on("value", function(snapshot) {
+        console.log(snapshot.val());
+        snapshot.forEach(function(data) {
+            console.log(data.val()["Location"]);
+        })
+    })
 }
 
 function rankStores(listStoreNames, listStoreCoordinates, listQuantities) {

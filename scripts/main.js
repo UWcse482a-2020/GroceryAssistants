@@ -61,6 +61,13 @@ function rankStores() {
     }
 
     results.sort(function(a, b) {return b["Quantity"] - a["Quantity"]});
+
+    console.log(results[2]);
+    // update html texts
+    document.getElementById("FirstQuant").innerText = "Quantity: " + String(results[0]["Quantity"]);
+    document.getElementById("SecondQuant").innerText = "Quantity: " + String(results[1]["Quantity"]);
+    document.getElementById("ThirdQuant").innerText = "Quantity: " + String(results[2]["Quantity"]);
+    document.getElementById("FourthQuant").innerText = "Quantity: " + String(results[3]["Quantity"]);
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

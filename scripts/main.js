@@ -3,11 +3,8 @@ window.onload = function () {
     var latitude;
     var longitude;
     var product;
-    var db = firebase.database();
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
-
-    // try reading content
 }
 
 function getLocation() {
@@ -21,15 +18,16 @@ function storePosition(position) {
     longitude = position.coords.longitude;
 }
 
-function searchForProduct() {
-    product = document.getElementById("product").value;
+async function searchForProduct() {
+    product = parseInt(document.getElementById("product").value);
     alert(product);
     var db = firebase.database();
     leadsRef = db.ref("/data");
-    leadsRef.orderByChild("UPC_PLU").equalTo(72220110616).on("value", function(snapshot) {
-        console.log(snapshot.val());
+    var stores = [];
+    leadsRef.orderByChild("UPC_PLU").equalTo(product).once("value").then(function(snapshot) {
+        // console.log(snapshot.val());
         snapshot.forEach(function(data) {
-            console.log(data.val()["Location"]);
+            stores.push(data.val());
         })
     })
 }
@@ -55,6 +53,9 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     return d;
 }
 
+function deg2rad(deg) {
+    return deg * (Math.PI/180);
+ }
 
 //   // Set the configuration for your app
 //   // TODO: Replace with your project's config object

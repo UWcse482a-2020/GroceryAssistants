@@ -7,6 +7,11 @@ window.onload = function () {
     var searchResultKeys;
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
+
+    document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
+    document.getElementById("update2ndQuant").addEventListener("click", this.updateSecondQuantity);
+    document.getElementById("update3rdQuant").addEventListener("click", this.updateThirdQuantity);
+    document.getElementById("update4thQuant").addEventListener("click", this.updateFourthQuantity);
 }
 
 function getLocation() {
@@ -21,6 +26,7 @@ function storePosition(position) {
 }
 
 async function searchForProduct() {
+    getLocation();
     product = parseInt(document.getElementById("product").value);
     var db = firebase.database();
     leadsRef = db.ref("/data");
@@ -99,25 +105,50 @@ function rankStores() {
     document.getElementById("SecondQuant").innerText = "Quantity: " + String(result_tuple[1][0]["Quantity"]);
     document.getElementById("ThirdQuant").innerText = "Quantity: " + String(result_tuple[2][0]["Quantity"]);
     document.getElementById("FourthQuant").innerText = "Quantity: " + String(result_tuple[3][0]["Quantity"]);
+}
 
-    // try to update 1st
-    var new_info = result_tuple[0][0]
-    new_info['Quantity'] = 50
-    key = result_tuple[0][1]
-
+function updateFirstQuantity() {
+    // updates 1st quantity
+    var new_first_quant = result_tuple[0][0];
+    new_first_quant['Quantity'] = document.getElementById("1stQuantVal").value;
+    key = result_tuple[0][1];
     var updates = {};
-    updates["/data/" + key] = new_info;
+    updates["/data/" + key] = new_first_quant;
 
     firebase.database().ref().update(updates);
+}
 
-    new_info = result_tuple[1][0]
-    new_info['Quantity'] = 39
-    key = result_tuple[1][1]
-
+function updateSecondQuantity() {
+    // update 2nd
+    new_second_quant = result_tuple[1][0];
+    new_second_quant['Quantity'] = document.getElementById("2ndQuantVal").value;
+    key = result_tuple[1][1];
     updates = {};
-    updates["/data/" + key] = new_info;
-    firebase.database().ref().update(updates);
+    updates["/data/" + key] = new_second_quant;
 
+    firebase.database().ref().update(updates);
+}
+
+function updateThirdQuantity() {
+    // update 3rd
+    new_third_quant = result_tuple[2][0];
+    new_third_quant['Quantity'] = document.getElementById("3rdQuantVal").value;
+    key = result_tuple[2][1];
+    updates = {};
+    updates["/data/" + key] = new_third_quant;
+
+    firebase.database().ref().update(updates);
+}
+
+function updateFourthQuantity() {
+    // update 4th
+    new_fourth_quant = result_tuple[3][0];
+    new_fourth_quant['Quantity'] = document.getElementById("4thQuantVal").value;
+    key = result_tuple[3][1];
+    updates = {};
+    updates["/data/" + key] = new_fourth_quant;
+
+    firebase.database().ref().update(updates);
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

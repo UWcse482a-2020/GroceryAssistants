@@ -116,6 +116,8 @@ function updateFirstQuantity() {
     updates["/data/" + key] = new_first_quant;
 
     firebase.database().ref().update(updates);
+    alert("Thank you for the feedback!");
+    document.getElementById("1stQuantVal").reset();
 }
 
 function updateSecondQuantity() {
@@ -127,6 +129,8 @@ function updateSecondQuantity() {
     updates["/data/" + key] = new_second_quant;
 
     firebase.database().ref().update(updates);
+    alert("Thank you for the feedback!");
+    document.getElementById("2ndQuantVal").reset();
 }
 
 function updateThirdQuantity() {
@@ -138,6 +142,8 @@ function updateThirdQuantity() {
     updates["/data/" + key] = new_third_quant;
 
     firebase.database().ref().update(updates);
+    alert("Thank you for the feedback!");
+    document.getElementById("3rdQuantVal").reset();
 }
 
 function updateFourthQuantity() {
@@ -149,6 +155,8 @@ function updateFourthQuantity() {
     updates["/data/" + key] = new_fourth_quant;
 
     firebase.database().ref().update(updates);
+    alert("Thank you for the feedback!");
+    document.getElementById("4thQuantVal").reset();
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

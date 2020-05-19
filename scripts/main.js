@@ -38,6 +38,12 @@ async function searchForProduct() {
         return ;
     } 
 
+    // update product name
+    var description = searchResults[0]["Description"]
+    var size = searchResults[0]["Size"]
+    var unit = searchResults[0]["Unit"]
+
+    document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
     rankStores();
 }
 

@@ -4,6 +4,7 @@ window.onload = function () {
     var longitude;
     var product;
     var searchResults;
+    var searchResultKeys;
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
 }
@@ -24,13 +25,16 @@ async function searchForProduct() {
     var db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
+    searchResultKeys = [];
     var database = leadsRef.orderByChild("UPC_PLU").equalTo(product);
     var snapshot = await database.once('value');
 
     if (snapshot.exists()) {
         snapshot.forEach(function(data) {
+            console.log(data.key);
             console.log(data.val());
             searchResults.push(data.val());
+            searchResultKeys.push(data.key);
         })
     }
     if (searchResults.length == 0) {
@@ -62,30 +66,58 @@ function rankStores() {
     }
 
     var results = [];
+    var resultKeys = [];
     for (i in keep) {
         results.push(searchResults[i]);
+        resultKeys.push(searchResultKeys[i]);
     }
+
     console.log("###")
     console.log(results)
+    console.log(resultKeys)
 
-    results.sort(function(a, b) {return b["Quantity"] - a["Quantity"]});
+    result_tuple = [];
+    for (var i = 0; i < results.length; i++) {
+        result_tuple.push([results[i], resultKeys[i]])
+    }
 
-    console.log(results[2]);
+    result_tuple.sort(function(a, b) {return b[0]["Quantity"] - a[0]["Quantity"]});
+
+    console.log(result_tuple[2]);
     // update html texts
-    document.getElementById("FirstStore").innerText = "Store: " + String(results[0]["Store"]);
-    document.getElementById("SecondStore").innerText = "Store: " + String(results[1]["Store"]);
-    document.getElementById("ThirdStore").innerText = "Store: " + String(results[2]["Store"]);
-    document.getElementById("FourthStore").innerText = "Store: " + String(results[3]["Store"]);
+    document.getElementById("FirstStore").innerText = "Store: " + String(result_tuple[0][0]["Store"]);
+    document.getElementById("SecondStore").innerText = "Store: " + String(result_tuple[1][0]["Store"]);
+    document.getElementById("ThirdStore").innerText = "Store: " + String(result_tuple[2][0]["Store"]);
+    document.getElementById("FourthStore").innerText = "Store: " + String(result_tuple[3][0]["Store"]);
 
-    document.getElementById("FirstGMap").addEventListener("click", function() {window.open(results[0]["Location"])})
-    document.getElementById("SecondGMap").addEventListener("click", function() {window.open(results[1]["Location"])})
-    document.getElementById("ThirdGMap").addEventListener("click", function() {window.open(results[2]["Location"])})
-    document.getElementById("FourthGMap").addEventListener("click", function() {window.open(results[3]["Location"])})
+    document.getElementById("FirstGMap").addEventListener("click", function() {window.open(result_tuple[0][0]["Location"])})
+    document.getElementById("SecondGMap").addEventListener("click", function() {window.open(result_tuple[1][0]["Location"])})
+    document.getElementById("ThirdGMap").addEventListener("click", function() {window.open(result_tuple[2][0]["Location"])})
+    document.getElementById("FourthGMap").addEventListener("click", function() {window.open(result_tuple[3][0]["Location"])})
 
-    document.getElementById("FirstQuant").innerText = "Quantity: " + String(results[0]["Quantity"]);
-    document.getElementById("SecondQuant").innerText = "Quantity: " + String(results[1]["Quantity"]);
-    document.getElementById("ThirdQuant").innerText = "Quantity: " + String(results[2]["Quantity"]);
-    document.getElementById("FourthQuant").innerText = "Quantity: " + String(results[3]["Quantity"]);
+    document.getElementById("FirstQuant").innerText = "Quantity: " + String(result_tuple[0][0]["Quantity"]);
+    document.getElementById("SecondQuant").innerText = "Quantity: " + String(result_tuple[1][0]["Quantity"]);
+    document.getElementById("ThirdQuant").innerText = "Quantity: " + String(result_tuple[2][0]["Quantity"]);
+    document.getElementById("FourthQuant").innerText = "Quantity: " + String(result_tuple[3][0]["Quantity"]);
+
+    // try to update 1st
+    var new_info = result_tuple[0][0]
+    new_info['Quantity'] = 50
+    key = result_tuple[0][1]
+
+    var updates = {};
+    updates["/data/" + key] = new_info;
+
+    firebase.database().ref().update(updates);
+
+    new_info = result_tuple[1][0]
+    new_info['Quantity'] = 39
+    key = result_tuple[1][1]
+
+    updates = {};
+    updates["/data/" + key] = new_info;
+    firebase.database().ref().update(updates);
+
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

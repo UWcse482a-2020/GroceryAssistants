@@ -3,6 +3,7 @@ window.onload = function () {
     var latitude;
     var longitude;
     var product;
+    var searchResults;
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
 }
@@ -20,22 +21,46 @@ function storePosition(position) {
 
 async function searchForProduct() {
     product = parseInt(document.getElementById("product").value);
-    alert(product);
     var db = firebase.database();
     leadsRef = db.ref("/data");
-    var stores = [];
-    leadsRef.orderByChild("UPC_PLU").equalTo(product).once("value").then(function(snapshot) {
-        // console.log(snapshot.val());
+    searchResults = [];
+    var database = leadsRef.orderByChild("UPC_PLU").equalTo(product);
+    var snapshot = await database.once('value');
+
+    if (snapshot.exists()) {
         snapshot.forEach(function(data) {
-            stores.push(data.val());
+            console.log(data.val());
+            searchResults.push(data.val());
         })
-    })
+    }
+    if (searchResults.length == 0) {
+        alert("Sorry, the UPC/PLU code you entered was not found.")
+        return ;
+    } 
+
+    rankStores();
 }
 
-function rankStores(listStoreNames, listStoreCoordinates, listQuantities) {
-    // distance (latitude, loonitude) -> list Coord
-    // rank ^ with quantities
-    // return store names -> display
+function rankStores() {
+
+    var keep = [];
+
+    for (var i = 0; i < searchResults.length; i++) {
+        var lat, lng;
+        lat = searchResults[i]["Latitude"];
+        lng = searchResults[i]["Longitude"]; 
+        d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
+        if (d < 10) {
+            keep.push(i);
+        }
+    }
+
+    var results = [];
+    for (i in keep) {
+        results.push(searchResults[i]);
+    }
+
+    results.sort(function(a, b) {return b["Quantity"] - a["Quantity"]});
 }
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

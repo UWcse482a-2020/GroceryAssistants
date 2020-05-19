@@ -1,10 +1,10 @@
 window.onload = function () {
     this.getLocation();
-    var database = firebase.database();
     var latitude;
     var longitude;
     var product;
-    this.searchForProduct();
+    var db = firebase.database();
+    // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
 }
 
@@ -21,6 +21,7 @@ function storePosition(position) {
 
 function searchForProduct() {
     product = document.getElementById("product").value;
+    alert(product)
 }
 
 function rankStores(listStoreNames, listStoreCoordinates, listQuantities) {

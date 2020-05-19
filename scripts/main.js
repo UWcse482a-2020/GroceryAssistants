@@ -59,11 +59,17 @@ function rankStores() {
     for (i in keep) {
         results.push(searchResults[i]);
     }
+    console.log("###")
+    console.log(results)
 
     results.sort(function(a, b) {return b["Quantity"] - a["Quantity"]});
 
     console.log(results[2]);
     // update html texts
+    document.getElementById("FirstStore").innerText = "Store: " + String(results[0]["Store"]);
+
+    document.getElementById("FirstGMap").addEventListener("click", function() {window.open(results[0]["Location"])})
+
     document.getElementById("FirstQuant").innerText = "Quantity: " + String(results[0]["Quantity"]);
     document.getElementById("SecondQuant").innerText = "Quantity: " + String(results[1]["Quantity"]);
     document.getElementById("ThirdQuant").innerText = "Quantity: " + String(results[2]["Quantity"]);

@@ -47,8 +47,8 @@
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="#hero">Home</a></li>
-          <li><a href="#get-started">Find Products</a></li>
+          <li class="menu-active" tabindex="0"><a href="#hero">Home</a></li>
+          <li tabindex="0"><a href="#get-started">Find Products</a></li>
           <!-- <li><a href="#contact">Upload Products</a></li> -->
           </li>
         </ul>
@@ -60,8 +60,9 @@
   <section id="hero" class="wow fadeIn">
     <div class="hero-container">
       <h1>Welcome to the Panic Shopping Assistant</h1>
-      <h2>Where you can find product availability and help members of your community!
-      </h2>
+      <h2>Where you can find product availability and help members of your community!</h2>
+      <h2>The panic shopping assistant was designed to aid marganalized communities in finding food items that are essential.</h2> 
+      <h2>Please allow eShoppingAssistant to see your location so we can find your nearest grocery stores.</h2>
       <img src="assets/img/hero-img.jpg" alt="Hero Imgs">
       <a href="#get-started" class="btn-get-started scrollto">Search for a Product</a>
     </div>
@@ -76,6 +77,10 @@
         <div class="section-title text-center">
 
           <h2>Search for a Product</h2>
+          <p>Directions: Search the name of the food item you want to buy, 
+            see where that item is using our "See on maps" feature, 
+            update the quantities availible in the store using the "update" button so the next user has fresh information.
+          </p>
           <!--      Added Search button-->
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
@@ -89,7 +94,7 @@
       </div>
 
       <div class="container">
-        <p class="separator" id="foundProduct"> Search Results:</p>
+        <p class="separator" id="foundProduct"> We limit our search results to 4 to promote social distancing and minimizing exposure...</p>
 
         <div class="row">
 

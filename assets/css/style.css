@@ -1409,3 +1409,26 @@ body.mobile-nav-active #mobile-nav-toggle i {
   letter-spacing: 0;
   color: rgb(61, 104, 50);
 }
+
+#get-started .btn-get-started {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 11px 36px;
+  margin-top:10px;
+  border-radius: 50px;
+  transition: 0.5s;
+  margin-bottom: 10px;
+  border: 2px solid rgb(61, 104, 50) ;
+  background: #fff;
+  color: rgb(61, 104, 50) ;
+  text-decoration: none;
+}
+
+#get-started .btn-get-started:hover {
+  background: rgb(61, 104, 50) ;
+  color: #fff;
+}

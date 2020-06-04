@@ -64,7 +64,6 @@ async function searchForProductByName() {
     searchResultKeys = [];
 
     var query = product;
-
     var database = leadsRef.orderByChild("Description").startAt(query).endAt(query + "\uf8ff")
     var snapshot = await database.once('value');
 
@@ -74,18 +73,26 @@ async function searchForProductByName() {
             searchResultKeys.push(data.key);
         })
     }
-    console.log(searchResults.length);
-    if (searchResults.length == 0) {
-        alert("Sorry, the UPC/PLU code you entered was not found.")
+
+    // get just descriptions
+    var descNames = [];
+    for (const d of searchResults) {
+        descNames.push(d["Description"]);
+    }
+    // ready to display in list herej
+    let uniqueDescNames = [...new Set(descNames)]; 
+
+    if (uniqueDescNames.length == 0) {
+        alert("Sorry, no product was found.")
         return ;
     } 
     // update product name
-    var description = searchResults[0]["Description"]
-    var size = searchResults[0]["Size"]
-    var unit = searchResults[0]["Unit"]
+    // var description = searchResults[0]["Description"]
+    // var size = searchResults[0]["Size"]
+    // var unit = searchResults[0]["Unit"]
 
-    document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
-    rankStores();
+    // document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
+    // rankStores();
 }
 
 

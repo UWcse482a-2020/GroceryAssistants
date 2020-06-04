@@ -57,26 +57,24 @@ async function searchForProductByUPC() {
 
 async function searchForProductByName() {
     getLocation();
-    product = parseInt(document.getElementById("product").value);
+    product = document.getElementById("product").value;
     var db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
     searchResultKeys = [];
 
-    var query = "Bread";
+    var query = product;
 
-    console.log("hi");
     var database = leadsRef.orderByChild("Description").startAt(query).endAt(query + "\uf8ff")
-    console.log("heloo");
     var snapshot = await database.once('value');
 
     if (snapshot.exists()) {
         snapshot.forEach(function(data) {
-            console.log(data.val());
             searchResults.push(data.val());
             searchResultKeys.push(data.key);
         })
     }
+    console.log(searchResults.length);
     if (searchResults.length == 0) {
         alert("Sorry, the UPC/PLU code you entered was not found.")
         return ;

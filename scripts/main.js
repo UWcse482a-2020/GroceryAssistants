@@ -6,7 +6,7 @@ window.onload = function () {
     var searchResults;
     var searchResultKeys;
     // this.searchForProduct();
-    document.getElementById("productSearch").addEventListener("click", this.searchForProduct);
+    document.getElementById("productSearch").addEventListener("click", this.searchForProductByName);
 
     document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
     document.getElementById("update2ndQuant").addEventListener("click", this.updateSecondQuantity);
@@ -25,7 +25,7 @@ function storePosition(position) {
     longitude = position.coords.longitude;
 }
 
-async function searchForProduct() {
+async function searchForProductByUPC() {
     getLocation();
     product = parseInt(document.getElementById("product").value);
     var db = firebase.database();
@@ -54,6 +54,42 @@ async function searchForProduct() {
     document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
     rankStores();
 }
+
+async function searchForProductByName() {
+    getLocation();
+    product = parseInt(document.getElementById("product").value);
+    var db = firebase.database();
+    leadsRef = db.ref("/data");
+    searchResults = [];
+    searchResultKeys = [];
+
+    var query = "Bread";
+
+    console.log("hi");
+    var database = leadsRef.orderByChild("Description").startAt(query).endAt(query + "\uf8ff")
+    console.log("heloo");
+    var snapshot = await database.once('value');
+
+    if (snapshot.exists()) {
+        snapshot.forEach(function(data) {
+            console.log(data.val());
+            searchResults.push(data.val());
+            searchResultKeys.push(data.key);
+        })
+    }
+    if (searchResults.length == 0) {
+        alert("Sorry, the UPC/PLU code you entered was not found.")
+        return ;
+    } 
+    // update product name
+    var description = searchResults[0]["Description"]
+    var size = searchResults[0]["Size"]
+    var unit = searchResults[0]["Unit"]
+
+    document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
+    rankStores();
+}
+
 
 function rankStores() {
 

@@ -84,6 +84,16 @@
             <input type="text" id="product" class="form-control" name="search" aria-label="Enter the name of a product you would like to find" 
               placeholder="Enter the name of a product you would like to find ">
             <button id="productSearch" class="btn-get-started">Search</button>
+
+            <!--Make sure the form has the autocomplete function switched off:-->
+            <form autocomplete="off">
+                <div class="autocomplete" style="width:800px;">
+                    <input id="product" class="form-control" name="search" type="text" aria-label="Enter the name of a product you would like to find" 
+                    placeholder="Enter the name of a product you would like to find ">
+                </div>
+                <input id="productSearch" type="submit" class="btn-get-started">
+            </form>
+
           </div>
 
         </div>
@@ -274,6 +284,8 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     </script>
+
+<script>callAutoComplete(document.getElementById("product"));</script>
 </body>
 
 </html>

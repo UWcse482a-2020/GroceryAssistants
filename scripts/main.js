@@ -133,9 +133,11 @@ function autocomplete(inp, arr) {
         // remove searching prompt after searching is done
         a.removeChild(a.childNodes[0]);
         // real search
+        var foundAnything = false;
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
           if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            foundAnything = true;
             /*create a DIV element for each matching element:*/
             b = document.createElement("DIV");
             /*make the matching letters bold:*/
@@ -153,6 +155,12 @@ function autocomplete(inp, arr) {
             });
             a.appendChild(b);
           }
+        }
+        if (!foundAnything) {
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + "Sorry, no results found" + "</strong>";
+            b.innerHTML += "<input type='hidden' value='" + "Sorry, no results found" + "'>"; 
+            a.appendChild(b);
         }
     });
     /*execute a function presses a key on the keyboard:*/

@@ -1,3 +1,6 @@
+var db;
+var uniqueDescNames;
+
 window.onload = function () {
     this.getLocation();
     var latitude;
@@ -7,14 +10,12 @@ window.onload = function () {
     var searchResultKeys;
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchForProductByName);
-
     document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
     document.getElementById("update2ndQuant").addEventListener("click", this.updateSecondQuantity);
     document.getElementById("update3rdQuant").addEventListener("click", this.updateThirdQuantity);
     document.getElementById("update4thQuant").addEventListener("click", this.updateFourthQuantity);
+    searchForProductByNameBigList();
 }
-
-var uniqueDescNames = [];
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -27,10 +28,38 @@ function storePosition(position) {
     longitude = position.coords.longitude;
 }
 
+async function searchForProductByNameBigList() {
+    db = firebase.database();
+    leadsRef = db.ref("/data");
+    searchResults = [];
+    searchResultKeys = [];
+
+    // var query = product;
+    var database = leadsRef.orderByChild("Description")
+    var snapshot = await database.once('value');
+
+    if (snapshot.exists()) {
+        snapshot.forEach(function(data) {
+            searchResults.push(data.val());
+            searchResultKeys.push(data.key);
+        })
+    }
+
+    // get just descriptions
+    var descNames = [];
+    for (const d of searchResults) {
+        descNames.push(d["Description"]);
+    }
+    // ready to display in list herej
+    let uniqueDescNames = [...new Set(descNames)]; 
+
+    console.log(uniqueDescNames.length)
+}
+
 async function searchForProductByUPC() {
     getLocation();
     product = parseInt(document.getElementById("product").value);
-    var db = firebase.database();
+    db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
     searchResultKeys = [];
@@ -60,7 +89,7 @@ async function searchForProductByUPC() {
 async function searchForProductByName() {
     getLocation();
     product = document.getElementById("product").value;
-    var db = firebase.database();
+    db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
     searchResultKeys = [];
@@ -222,110 +251,6 @@ function deg2rad(deg) {
     return deg * (Math.PI/180);
  }
 
- function autocomplete(inp, arr) {
-    /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
-    var currentFocus;
-    /*execute a function when someone writes in the text field:*/
-    inp.addEventListener("input", function(e) {
-        console.log(arr);
-        var a, b, i, val = this.value;
-        /*close any already open lists of autocompleted values*/
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
-        this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        for (i = 0; i < arr.length; i++) {
-          /*check if the item starts with the same letters as the text field value:*/
-          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            /*create a DIV element for each matching element:*/
-            b = document.createElement("DIV");
-            /*make the matching letters bold:*/
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            /*insert a input field that will hold the current array item's value:*/
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            /*execute a function when someone clicks on the item value (DIV element):*/
-            b.addEventListener("click", function(e) {
-                /*insert the value for the autocomplete text field:*/
-                inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                closeAllLists();
-            });
-            a.appendChild(b);
-          }
-        }
-    });
-    /*execute a function presses a key on the keyboard:*/
-    inp.addEventListener("keydown", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-          /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
-          currentFocus++;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 38) { //up
-          /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
-          currentFocus--;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 13) {
-          /*If the ENTER key is pressed, prevent the form from being submitted,*/
-          e.preventDefault();
-          if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
-          }
-        }
-    });
-    function addActive(x) {
-      /*a function to classify an item as "active":*/
-      if (!x) return false;
-      /*start by removing the "active" class on all items:*/
-      removeActive(x);
-      if (currentFocus >= x.length) currentFocus = 0;
-      if (currentFocus < 0) currentFocus = (x.length - 1);
-      /*add class "autocomplete-active":*/
-      x[currentFocus].classList.add("autocomplete-active");
-    }
-    function removeActive(x) {
-      /*a function to remove the "active" class from all autocomplete items:*/
-      for (var i = 0; i < x.length; i++) {
-        x[i].classList.remove("autocomplete-active");
-      }
-    }
-    function closeAllLists(elmnt) {
-      /*close all autocomplete lists in the document,
-      except the one passed as an argument:*/
-      var x = document.getElementsByClassName("autocomplete-items");
-      for (var i = 0; i < x.length; i++) {
-        if (elmnt != x[i] && elmnt != inp) {
-          x[i].parentNode.removeChild(x[i]);
-        }
-      }
-    }
-    /*execute a function when someone clicks in the document:*/
-    document.addEventListener("click", function (e) {
-        closeAllLists(e.target);
-    });
-  }
-  
-  /*initiate the autocomplete function on the "product" element, and pass along the countries array as possible autocomplete values:*/
-//   autocomplete(document.getElementById("product"), uniqueDescNames);
-
-function callAutoComplete(inp) {
-    autocomplete(inp,uniqueDescNames);
-}
 //   // Set the configuration for your app
 //   // TODO: Replace with your project's config object
 //   var config = {

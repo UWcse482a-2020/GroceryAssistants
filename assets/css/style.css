@@ -1433,6 +1433,8 @@ body.mobile-nav-active #mobile-nav-toggle i {
   color: #fff;
 }
 
+/* The following is the code copied from test.css */
+
 * {
     box-sizing: border-box;
   }

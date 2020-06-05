@@ -137,10 +137,15 @@ function autocomplete(inp, arr) {
         a.setAttribute("class", "autocomplete-items");
         /*append the DIV element as a child of the autocomplete container:*/
         this.parentNode.appendChild(a);
-        /*for each item in the array...*/
-        console.log(val);
+        // searching prompt
+        b = document.createElement("DIV");
+        b.innerHTML = "<strong>" + "Searching...Please wait" + "</strong>";
+        b.innerHTML += "<input type='hidden' value='" + "Searching...Please wait" + "'>"; 
+        a.appendChild(b);
         arr = await searchForProductByName(val); 
-        console.log(arr);
+        // remove searching prompt after searching is done
+        a.removeChild(a.childNodes[0]);
+        // real search
         for (i = 0; i < arr.length; i++) {
           /*check if the item starts with the same letters as the text field value:*/
           if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {

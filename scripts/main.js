@@ -68,7 +68,22 @@ async function searchForProductByName(query) {
 
     var database = leadsRef.orderByChild("Description").startAt(query).endAt(query + "\uf8ff")
     var snapshot = await database.once('value');
-
+    if (snapshot.exists()) {
+        snapshot.forEach(function(data) {
+            searchResults.push(data.val());
+            searchResultKeys.push(data.key);
+        })
+    }
+    var database = leadsRef.orderByChild("Description").startAt(query.toUpperCase()).endAt(query.toUpperCase() + "\uf8ff")
+    var snapshot = await database.once('value');
+    if (snapshot.exists()) {
+        snapshot.forEach(function(data) {
+            searchResults.push(data.val());
+            searchResultKeys.push(data.key);
+        })
+    }
+    var database = leadsRef.orderByChild("Description").startAt(query.toLowerCase()).endAt(query.toLowerCase() + "\uf8ff")
+    var snapshot = await database.once('value');
     if (snapshot.exists()) {
         snapshot.forEach(function(data) {
             searchResults.push(data.val());

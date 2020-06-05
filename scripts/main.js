@@ -30,34 +30,6 @@ function storePosition(position) {
     longitude = position.coords.longitude;
 }
 
-async function searchForProductByNameBigList() {
-    db = firebase.database();
-    leadsRef = db.ref("/data");
-    searchResults = [];
-    searchResultKeys = [];
-
-    // var query = product;
-    var database = leadsRef.orderByChild("Description")
-    var snapshot = await database.once('value');
-
-    if (snapshot.exists()) {
-        snapshot.forEach(function(data) {
-            searchResults.push(data.val());
-            searchResultKeys.push(data.key);
-        })
-    }
-
-    // get just descriptions
-    var descNames = [];
-    for (const d of searchResults) {
-        descNames.push(d["Description"]);
-    }
-    // ready to display in list herej
-    let uniqueDescNames = [...new Set(descNames)]; 
-
-    console.log(uniqueDescNames.length)
-}
-
 async function searchForProductByUPC() {
     getLocation();
     product = parseInt(document.getElementById("product").value);

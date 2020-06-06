@@ -42,13 +42,13 @@
     <div class="container">
 
       <div id="logo" class="pull-left">
-        <h1><a href="#body" class="scrollto"><span>e</span>ShoppingAssistant</a></h1>
+        <h1><a href="#body" class="scrollto" target='index.html'><span>e</span>ShoppingAssistant</a></h1>
       </div>
 
       <nav id="nav-menu-container">
         <ul class="nav-menu">
-          <li class="menu-active"><a href="#hero">Home</a></li>
-          <li><a href="#features">Find Products</a></li>
+          <li class="menu-active" tabindex="0"><a href="#hero">Home</a></li>
+          <li tabindex="0"><a href="#get-started">Find Products</a></li>
           <!-- <li><a href="#contact">Upload Products</a></li> -->
           </li>
         </ul>
@@ -60,9 +60,9 @@
   <section id="hero" class="wow fadeIn">
     <div class="hero-container">
       <h1>Welcome to the Panic Shopping Assistant</h1>
-      <h2>Where you can find product availability and help members of your community!
-      </h2>
-      <img src="assets/img/hero-img.jpg" alt="Hero Imgs">
+      <h2>Where you can find product availability and help members of your community!</h2>
+      <h2>The panic shopping assistant was designed to aid marganalized communities in finding food items that are essential.</h2> 
+      <img src="assets/img/hero-img.jpg" alt="Decorative image of a shopping cart.">
       <a href="#get-started" class="btn-get-started scrollto">Search for a Product</a>
     </div>
   </section><!-- End Hero Section -->
@@ -76,18 +76,36 @@
         <div class="section-title text-center">
 
           <h2>Search for a Product</h2>
+          <p>Please allow eShoppingAssistant to see your location so we can find your nearest grocery stores.</p>
           <!--      Added Search button-->
           <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" id="product" class="form-control" placeholder="Enter the name of a product you would like to find ">
-            <button id="productSearch">Search</button>
+            <!-- the label element lets us -->
+            <!-- <input type="text" id="product" class="form-control" name="search" aria-label="Enter the name of a product you would like to find" 
+              placeholder="Enter the name of a product you would like to find ">
+            <button id="productSearch" class="btn-get-started">Search</button> -->
+
+            <!--Make sure the form has the autocomplete function switched off:-->
+            <form autocomplete="off">
+                <div class="autocomplete" style="width:800px;">
+                    <input id="product" class="form-control" name="search" type="text" aria-label="Enter the name of a product you would like to find" 
+                    placeholder="Enter the name of a product you would like to find ">
+                </div>
+            </form><button id="productSearch" class="btn-get-started">Search</button>
+
           </div>
 
         </div>
       </div>
 
-      <div class="container">
-        <p class="separator" id="foundProduct"> Search Results:</p>
+      <div class="container" id="searchResults">
+        <p class="separator" id="foundProduct"> We limit our search results to 4 to promote social distancing and minimizing exposure...</p>
+
+        <p>
+          Directions: After searching the name of the food item you want to buy you can  
+          see where that item is using our "See on maps" feature and
+          update the quantities availible in the store using the "update" button so the next user has fresh information.
+        </p>
 
         <div class="row">
 
@@ -98,11 +116,12 @@
                 <h2 id="FirstQuant">Quantity: </h2>
                 <ul class="list-unstyled">
                   <li id="FirstStore"><b>Store: </b>address</li>
-                  <li><button id="FirstGMap">See on maps</button></li>
+                  <li><button id="FirstGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <div class="table_btn">
-                    <input id="1stQuantVal" type="number" placeholder="Update quantity here">
-                    <button id=update1stQuant>Update</button>
+                    <input id="1stQuantVal" type="number" placeholder="Update quantity here" 
+                    name="update" aria-label="Update quantity here">
+                    <button id=update1stQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
               </div>
             </div>
@@ -115,11 +134,12 @@
                 <h2 id="SecondQuant">Quantity: </h2>
                 <ul class="list-unstyled">
                   <li id="SecondStore"><b>Store: </b>address</li>
-                  <li><button id="SecondGMap">See on maps</button></li>
+                  <li><button id="SecondGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <div class="table_btn">
-                    <input id="2ndQuantVal" type="number" placeholder="Update quantity here">
-                    <button id=update2ndQuant>Update</button>
+                    <input id="2ndQuantVal" type="number" placeholder="Update quantity here" 
+                    name="update" aria-label="Update quantity here">
+                    <button id=update2ndQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
               </div>
             </div>
@@ -132,11 +152,12 @@
                 <h2 id="ThirdQuant">Quantity: </h2>
                 <ul class="list-unstyled">
                   <li id="ThirdStore"><b>Store: </b>address</li>
-                  <li><button id="ThirdGMap">See on maps</button></li>
+                  <li><button id="ThirdGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <div class="table_btn">
-                    <input id="3rdQuantVal" type="number" placeholder="Update quantity here">
-                    <button id=update3rdQuant>Update</button>
+                    <input id="3rdQuantVal" type="number" placeholder="Update quantity here" 
+                    name="update" aria-label="Update quantity here">
+                    <button id=update3rdQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
               </div>
             </div>
@@ -149,11 +170,12 @@
                 <h2 id="FourthQuant">Quantity: </h2>
                 <ul class="list-unstyled">
                   <li id="FourthStore"><b>Store: </b>address</li>
-                  <li><button id="FourthGMap">See on maps</button></li>
+                  <li><button id="FourthGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <div class="table_btn">
-                    <input id="4thQuantVal" type="number" placeholder="Update quantity here">
-                    <button id=update4thQuant>Update</button>
+                    <input id="4thQuantVal" type="number" placeholder="Update quantity here"
+                    name="update" aria-label="Update quantity here">
+                    <button id=update4thQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
 
               </div>
             </div>
@@ -161,155 +183,6 @@
         </div>
       </div>
     </section><!-- End Secondary Search Results UI Option -->
-
-    <!-- ======= Upload Products Section ======= -->
-    <!-- <section id="contact" class="padd-section wow fadeInUp">
-
-      <div class="container">
-        <div class="section-title text-center">
-          <h2>Upload a Product</h2>
-          <p class="separator">Upload products you see on your grocery trip!</p>
-          <p class="separator">By adding products you help members of your community identify essential food products.</p>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="row justify-content-center">
-
-          <div class="col-lg-3 col-md-4">
-
-            <div class="info">
-              <div>
-                <i class="fa fa-phone"></i>
-                <p>What is the name of this product?</p>
-              </div>
-
-              <div>
-                <i class="fa fa-map-marker"></i>
-                <p>Location<br>Where did you see this product?</p>
-              </div>
-
-              <div class="email">
-                <i class="fa fa-envelope"></i>
-                <p>How many did you see in stock?</p>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col-lg-5 col-md-8">
-            <div class="form">
-              <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Product Name" data-rule="minlen:4" data-msg="Please select from drop down" />
-                  <div class="validate"></div>
-                </div>
-
-                <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Store Address" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validate"></div>
-                </div>
-
-                <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Quantity"></textarea>
-                  <div class="validate"></div>
-                </div>
-
-                <div class="mb-3">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
-
-                <div class="text-center"><button type="submit">Update Stock</button></div>
-
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>end Upload Product Section -->
-
-    <!-- Should we add a team section? -->
-    <!--    &lt;!&ndash; ======= Team Section ======= &ndash;&gt;-->
-    <!--    <section id="team" class="padd-section text-center wow fadeInUp">-->
-
-    <!--      <div class="container">-->
-    <!--        <div class="section-title text-center">-->
-
-    <!--          <h2>Team Member</h2>-->
-    <!--          <p class="separator">Integer cursus bibendum augue ac cursus .</p>-->
-
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="container">-->
-    <!--        <div class="row">-->
-
-    <!--          <div class="col-md-6 col-md-4 col-lg-3">-->
-    <!--            <div class="team-block bottom">-->
-    <!--              <img src="assets/img/team/1.jpg" class="img-responsive" alt="img">-->
-    <!--              <div class="team-content">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-    <!--                </ul>-->
-    <!--                <span>manager</span>-->
-    <!--                <h4>Kimberly Tran</h4>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-
-    <!--          <div class="col-md-6 col-md-4 col-lg-3">-->
-    <!--            <div class="team-block bottom">-->
-    <!--              <img src="assets/img/team/2.jpg" class="img-responsive" alt="img">-->
-    <!--              <div class="team-content">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-    <!--                </ul>-->
-    <!--                <span>manager</span>-->
-    <!--                <h4>Kimberly Tran</h4>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-
-    <!--          <div class="col-md-6 col-md-4 col-lg-3">-->
-    <!--            <div class="team-block bottom">-->
-    <!--              <img src="assets/img/team/3.jpg" class="img-responsive" alt="img">-->
-    <!--              <div class="team-content">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-    <!--                </ul>-->
-    <!--                <span>manager</span>-->
-    <!--                <h4>Kimberly Tran</h4>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-
-    <!--          <div class="col-md-6 col-md-4 col-lg-3">-->
-    <!--            <div class="team-block bottom">-->
-    <!--              <img src="assets/img/team/4.jpg" class="img-responsive" alt="img">-->
-    <!--              <div class="team-content">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>-->
-    <!--                  <li><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-    <!--                </ul>-->
-    <!--                <span>manager</span>-->
-    <!--                <h4>Kimberly Tran</h4>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </section>&lt;!&ndash; End Team Section &ndash;&gt;-->
 
   </main><!-- End #main -->
 
@@ -355,7 +228,7 @@
           Licensing information: https://bootstrapmade.com/license/
           Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=eStartup
         -->
-          Designed by <a href="#">BootstrapMade, Mariam Mayanja, and Geovani Castro</a>
+          Designed by <a>BootstrapMade, Mariam Mayanja, and Geovani Castro</a>
         </div>
       </div>
     </div>

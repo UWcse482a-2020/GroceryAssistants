@@ -249,6 +249,9 @@
   <script src="assets/vendor/hoverIntent/hoverIntent.js"></script>
 
   <!-- Template Main JS File -->
+
+
+
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -283,6 +286,35 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     </script>
+    
+    <!-- HERE Maps API -->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+    type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+    type="text/javascript" charset="utf-8"></script>
+
+
+    <div style="width: 640px; height: 480px" id="mapContainer"></div>
+    <script>
+    // Your web app's Firebase configuration
+    var platform = new H.service.Platform({
+      'apikey': 'T1Mswlf9_DD3X047Sb6orQKQYI6JXSvWhHeluBIqewM'});
+    console.log(platform)
+    // Obtain the default map types from the platform object
+    var maptypes = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+      document.getElementById('mapContainer'),
+      maptypes.vector.normal.map,
+      {
+        zoom: 10,
+        center: { lng: 13.4, lat: 52.51 }
+      });
+    </script>
+
+
+
 </body>
 
 </html>

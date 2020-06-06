@@ -8,15 +8,19 @@ window.onload = function () {
     var product;
     var searchResults;
     var searchResultKeys;
+
+    var x = document.getElementById("searchResults");
+    x.style.display = "none";
+
+
     // this.searchForProduct();
-    document.getElementById("productSearch").addEventListener("click", this.searchForProductByName);
+    document.getElementById("productSearch").addEventListener("click", this.searchAndRank);
     document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
     document.getElementById("update2ndQuant").addEventListener("click", this.updateSecondQuantity);
     document.getElementById("update3rdQuant").addEventListener("click", this.updateThirdQuantity);
     document.getElementById("update4thQuant").addEventListener("click", this.updateFourthQuantity);
     // searchForProductByNameBigList();
-    var testUniqueDescNames = ["Bread","Milk","Cheese", "Eggs", "Baby Formula"];
-    autocomplete(document.getElementById("product"), testUniqueDescNames);
+    autocomplete(document.getElementById("product"));
 }
 
 function getLocation() {
@@ -30,14 +34,15 @@ function storePosition(position) {
     longitude = position.coords.longitude;
 }
 
-async function searchForProductByUPC() {
-    getLocation();
-    product = parseInt(document.getElementById("product").value);
+async function searchAndRank() {
+    document.getElementById("searchResults").style.display = "block";
+    product = document.getElementById("product").value;
+    console.log(product)
     db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
     searchResultKeys = [];
-    var database = leadsRef.orderByChild("UPC_PLU").equalTo(product);
+    var database = leadsRef.orderByChild("Description").equalTo(product);
     var snapshot = await database.once('value');
 
     if (snapshot.exists()) {
@@ -45,11 +50,9 @@ async function searchForProductByUPC() {
             searchResults.push(data.val());
             searchResultKeys.push(data.key);
         })
+    } else {
+        alert("Sorry, the product was not found. Please make sure to choose an item from the drop-down list.")
     }
-    if (searchResults.length == 0) {
-        alert("Sorry, the UPC/PLU code you entered was not found.")
-        return ;
-    } 
 
     // update product name
     var description = searchResults[0]["Description"]
@@ -58,6 +61,7 @@ async function searchForProductByUPC() {
 
     document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
     rankStores();
+
 }
 
 async function searchForProductByName(query) {
@@ -97,7 +101,6 @@ async function searchForProductByName(query) {
     }
     // ready to display in list herej
     let uniqueDescNames = [...new Set(descNames)]; 
-    console.log("got here");
 
     // if (uniqueDescNames.length == 0) {
     //     alert("Sorry, no product was found.")
@@ -106,7 +109,7 @@ async function searchForProductByName(query) {
     return uniqueDescNames;
 }
 
-function autocomplete(inp, arr) {
+function autocomplete(inp) {
     document.innerHTML = "Hello";
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/

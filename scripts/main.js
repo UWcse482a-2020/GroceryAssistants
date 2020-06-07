@@ -2,17 +2,15 @@ var db;
 var uniqueDescNames;
 
 window.onload = function () {
-    this.getLocation();
     var latitude;
     var longitude;
     var product;
     var searchResults;
     var searchResultKeys;
-
+    // create HERE maps instance
+    this.getLocation();
     var x = document.getElementById("searchResults");
     x.style.display = "none";
-
-
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchAndRank);
     document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
@@ -37,7 +35,6 @@ function storePosition(position) {
 async function searchAndRank() {
     document.getElementById("searchResults").style.display = "block";
     product = document.getElementById("product").value;
-    console.log(product)
     db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
@@ -61,7 +58,6 @@ async function searchAndRank() {
 
     document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
     rankStores();
-
 }
 
 async function searchForProductByName(query) {
@@ -224,8 +220,7 @@ function autocomplete(inp) {
 }
 
 
-
-function rankStores() {
+async function rankStores() {
 
     var keep = [];
 
@@ -233,10 +228,15 @@ function rankStores() {
         var lat, lng;
         lat = searchResults[i]["Latitude"];
         lng = searchResults[i]["Longitude"]; 
-        d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
-
-        if (d < 3) {
+        //d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
+        d = await getDrivingDist(lat, lng);
+        if (d < 5000) {
+            console.log(d);
             keep.push(i);
+            console.log(searchResults[i]["Latitude"]);
+            console.log(searchResults[i]["Longitude"]);
+            console.log(searchResults[i]["Store"]);
+            console.log(searchResults[i]["Location"]);
         }
     }
 
@@ -270,6 +270,28 @@ function rankStores() {
     document.getElementById("ThirdQuant").innerText = "Quantity: " + String(result_tuple[2][0]["Quantity"]);
     document.getElementById("FourthQuant").innerText = "Quantity: " + String(result_tuple[3][0]["Quantity"]);
 }
+
+async function getDrivingDist(x, y) {
+    var platform = new H.service.Platform({
+        'apikey': 'T1Mswlf9_DD3X047Sb6orQKQYI6JXSvWhHeluBIqewM'
+    });
+    var dist = 0;
+    router = platform.getRoutingService();
+    const params = {
+        mode: "fastest;car;traffic:enabled",
+        waypoint0: latitude.toString() + "," + longitude.toString(),
+        waypoint1: x.toString() + "," + y.toString(),
+        routeAttributes: "summary"
+    };
+    onResult = function(result) {
+        dist = result.response.route[0].summary.distance;
+    }, onError = function(error) {
+        console.log(error);
+    };
+    await router.calculateRoute(params, onResult, onError);
+    return dist;
+}
+
 
 function updateFirstQuantity() {
     // updates 1st quantity

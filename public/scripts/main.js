@@ -2,17 +2,18 @@ var db;
 var uniqueDescNames;
 
 window.onload = function () {
-    this.getLocation();
     var latitude;
     var longitude;
     var product;
     var searchResults;
     var searchResultKeys;
-
+    var map;
+    var behavior;
+    var group;
+    // create HERE maps instance
+    this.getLocation();
     var x = document.getElementById("searchResults");
     x.style.display = "none";
-
-
     // this.searchForProduct();
     document.getElementById("productSearch").addEventListener("click", this.searchAndRank);
     document.getElementById("update1stQuant").addEventListener("click", this.updateFirstQuantity);
@@ -37,7 +38,6 @@ function storePosition(position) {
 async function searchAndRank() {
     document.getElementById("searchResults").style.display = "block";
     product = document.getElementById("product").value;
-    console.log(product)
     db = firebase.database();
     leadsRef = db.ref("/data");
     searchResults = [];
@@ -61,7 +61,6 @@ async function searchAndRank() {
 
     document.getElementById("foundProduct").innerText = description + " " + size + " " + unit;
     rankStores();
-
 }
 
 async function searchForProductByName(query) {
@@ -224,27 +223,22 @@ function autocomplete(inp) {
 }
 
 
+async function rankStores() {
 
-function rankStores() {
-
-    var keep = [];
+    var results = [];
+    var resultKeys = [];
 
     for (var i = 0; i < searchResults.length; i++) {
         var lat, lng;
         lat = searchResults[i]["Latitude"];
         lng = searchResults[i]["Longitude"]; 
-        d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
+        //d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
+        d = await getDrivingDist(lat, lng);
 
-        if (d < 3) {
-            keep.push(i);
+        if (d < 5000) {
+            results.push(searchResults[i]);
+            resultKeys.push(searchResultKeys[i]);
         }
-    }
-
-    var results = [];
-    var resultKeys = [];
-    for (i in keep) {
-        results.push(searchResults[i]);
-        resultKeys.push(searchResultKeys[i]);
     }
 
     result_tuple = [];
@@ -253,12 +247,44 @@ function rankStores() {
     }
 
     result_tuple.sort(function(a, b) {return b[0]["Quantity"] - a[0]["Quantity"]});
+    var platform = new H.service.Platform({
+        'apikey': 'T1Mswlf9_DD3X047Sb6orQKQYI6JXSvWhHeluBIqewM'
+    });
+    var maptypes = platform.createDefaultLayers();
 
     // update html texts
-    document.getElementById("FirstStore").innerText = "Store: " + String(result_tuple[0][0]["Store"]);
-    document.getElementById("SecondStore").innerText = "Store: " + String(result_tuple[1][0]["Store"]);
-    document.getElementById("ThirdStore").innerText = "Store: " + String(result_tuple[2][0]["Store"]);
-    document.getElementById("FourthStore").innerText = "Store: " + String(result_tuple[3][0]["Store"]);
+    document.getElementById("FirstStore").innerText = String(result_tuple[0][0]["Store"] + "\n" + result_tuple[0][0]["Location"].substring(34, result_tuple[0][0]["Location"].length - 2));
+    document.getElementById("SecondStore").innerText = String(result_tuple[1][0]["Store"] + "\n" + result_tuple[1][0]["Location"].substring(34, result_tuple[1][0]["Location"].length - 2));
+    document.getElementById("ThirdStore").innerText = String(result_tuple[2][0]["Store"]) + "\n" + result_tuple[2][0]["Location"].substring(34, result_tuple[2][0]["Location"].length - 2);
+    document.getElementById("FourthStore").innerText = String(result_tuple[3][0]["Store"] + "\n" + result_tuple[3][0]["Location"].substring(34, result_tuple[3][0]["Location"].length - 2));
+    
+    // Instantiate (and display) a map object:
+    if (typeof map === "undefined") {
+        map = new H.Map(
+        document.getElementById('mapContainer1'),
+        maptypes.vector.normal.map,
+        {
+          zoom: 4,
+          center: { lng: longitude, lat: latitude}
+        }); 
+
+    }
+    if (typeof behavior === "undefined") {
+        behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    }
+    if (typeof group === "undefined") {
+        group = new H.map.Group(); 
+    }
+
+    map.removeObjects(map.getObjects())
+    group.removeObjects(group.getObjects())
+    // add markers to the group
+    for (var i = 0; i < 4; i++) {
+        var marker = new H.map.Marker({lat: result_tuple[i][0]["Latitude"], lng: result_tuple[i][0]["Longitude"]});
+        group.addObject(marker);
+    }
+    map.addObject(group);
+    map.getViewModel().setLookAtData({bounds: group.getBoundingBox()});
 
     document.getElementById("FirstGMap").addEventListener("click", function() {window.open(result_tuple[0][0]["Location"])})
     document.getElementById("SecondGMap").addEventListener("click", function() {window.open(result_tuple[1][0]["Location"])})
@@ -270,6 +296,28 @@ function rankStores() {
     document.getElementById("ThirdQuant").innerText = "Quantity: " + String(result_tuple[2][0]["Quantity"]);
     document.getElementById("FourthQuant").innerText = "Quantity: " + String(result_tuple[3][0]["Quantity"]);
 }
+
+async function getDrivingDist(x, y) {
+    var platform = new H.service.Platform({
+        'apikey': 'T1Mswlf9_DD3X047Sb6orQKQYI6JXSvWhHeluBIqewM'
+    });
+    var dist = 0;
+    router = platform.getRoutingService();
+    const params = {
+        mode: "fastest;car;traffic:enabled",
+        waypoint0: latitude.toString() + "," + longitude.toString(),
+        waypoint1: x.toString() + "," + y.toString(),
+        routeAttributes: "summary"
+    };
+    onResult = function(result) {
+        dist = result.response.route[0].summary.distance;
+    }, onError = function(error) {
+        console.log(error);
+    };
+    await router.calculateRoute(params, onResult, onError);
+    return dist;
+}
+
 
 function updateFirstQuantity() {
     // updates 1st quantity

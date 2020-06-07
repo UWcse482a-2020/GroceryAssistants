@@ -222,7 +222,8 @@ function autocomplete(inp) {
 
 async function rankStores() {
 
-    var keep = [];
+    var results = [];
+    var resultKeys = [];
 
     for (var i = 0; i < searchResults.length; i++) {
         var lat, lng;
@@ -230,21 +231,11 @@ async function rankStores() {
         lng = searchResults[i]["Longitude"]; 
         //d = getDistanceFromLatLonInKm(lat, lng, latitude, longitude);
         d = await getDrivingDist(lat, lng);
-        if (d < 5000) {
-            console.log(d);
-            keep.push(i);
-            console.log(searchResults[i]["Latitude"]);
-            console.log(searchResults[i]["Longitude"]);
-            console.log(searchResults[i]["Store"]);
-            console.log(searchResults[i]["Location"]);
-        }
-    }
 
-    var results = [];
-    var resultKeys = [];
-    for (i in keep) {
-        results.push(searchResults[i]);
-        resultKeys.push(searchResultKeys[i]);
+        if (d < 5000) {
+            results.push(searchResults[i]);
+            resultKeys.push(searchResultKeys[i]);
+        }
     }
 
     result_tuple = [];
@@ -253,12 +244,34 @@ async function rankStores() {
     }
 
     result_tuple.sort(function(a, b) {return b[0]["Quantity"] - a[0]["Quantity"]});
+    var platform = new H.service.Platform({
+        'apikey': 'T1Mswlf9_DD3X047Sb6orQKQYI6JXSvWhHeluBIqewM'
+    });
+    var maptypes = platform.createDefaultLayers();
 
     // update html texts
-    document.getElementById("FirstStore").innerText = "Store: " + String(result_tuple[0][0]["Store"]);
-    document.getElementById("SecondStore").innerText = "Store: " + String(result_tuple[1][0]["Store"]);
-    document.getElementById("ThirdStore").innerText = "Store: " + String(result_tuple[2][0]["Store"]);
-    document.getElementById("FourthStore").innerText = "Store: " + String(result_tuple[3][0]["Store"]);
+    document.getElementById("FirstStore").innerText = String(result_tuple[0][0]["Store"] + "\n" + result_tuple[0][0]["Location"].substring(34, result_tuple[0][0]["Location"].length - 2));
+    document.getElementById("SecondStore").innerText = String(result_tuple[1][0]["Store"] + "\n" + result_tuple[1][0]["Location"].substring(34, result_tuple[1][0]["Location"].length - 2));
+    document.getElementById("ThirdStore").innerText = String(result_tuple[2][0]["Store"]) + "\n" + result_tuple[2][0]["Location"].substring(34, result_tuple[2][0]["Location"].length - 2);
+    document.getElementById("FourthStore").innerText = String(result_tuple[3][0]["Store"] + "\n" + result_tuple[3][0]["Location"].substring(34, result_tuple[3][0]["Location"].length - 2));
+    
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+        document.getElementById('mapContainer1'),
+        maptypes.vector.normal.map,
+        {
+          zoom: 4,
+          center: { lng: longitude, lat: latitude}
+        }); 
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    var group = new H.map.Group();
+    // add markers to the group
+    for (var i = 0; i < 4; i++) {
+        var marker = new H.map.Marker({lat: result_tuple[i][0]["Latitude"], lng: result_tuple[i][0]["Longitude"]});
+        group.addObject(marker);
+    }
+    map.addObject(group);
+    map.getViewModel().setLookAtData({bounds: group.getBoundingBox()});
 
     document.getElementById("FirstGMap").addEventListener("click", function() {window.open(result_tuple[0][0]["Location"])})
     document.getElementById("SecondGMap").addEventListener("click", function() {window.open(result_tuple[1][0]["Location"])})

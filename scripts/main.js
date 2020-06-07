@@ -7,6 +7,9 @@ window.onload = function () {
     var product;
     var searchResults;
     var searchResultKeys;
+    var map;
+    var behavior;
+    var group;
     // create HERE maps instance
     this.getLocation();
     var x = document.getElementById("searchResults");
@@ -256,15 +259,25 @@ async function rankStores() {
     document.getElementById("FourthStore").innerText = String(result_tuple[3][0]["Store"] + "\n" + result_tuple[3][0]["Location"].substring(34, result_tuple[3][0]["Location"].length - 2));
     
     // Instantiate (and display) a map object:
-    var map = new H.Map(
+    if (typeof map === "undefined") {
+        map = new H.Map(
         document.getElementById('mapContainer1'),
         maptypes.vector.normal.map,
         {
           zoom: 4,
           center: { lng: longitude, lat: latitude}
         }); 
-    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-    var group = new H.map.Group();
+
+    }
+    if (typeof behavior === "undefined") {
+        behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    }
+    if (typeof group === "undefined") {
+        group = new H.map.Group(); 
+    }
+
+    map.removeObjects(map.getObjects())
+    group.removeObjects(group.getObjects())
     // add markers to the group
     for (var i = 0; i < 4; i++) {
         var marker = new H.map.Marker({lat: result_tuple[i][0]["Latitude"], lng: result_tuple[i][0]["Longitude"]});

@@ -241,6 +241,12 @@ async function rankStores() {
         }
     }
 
+    // if no stores
+    if (results.length == 0) {
+        // alert or text
+    }    
+
+
     result_tuple = [];
     for (var i = 0; i < results.length; i++) {
         result_tuple.push([results[i], resultKeys[i]])

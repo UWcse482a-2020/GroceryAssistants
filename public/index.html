@@ -58,6 +58,7 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="wow fadeIn">
+    <div id="rangeError"></div>
     <div class="hero-container">
       <h1>Welcome to the Panic Shopping Assistant</h1>
       <h2>Where you can find product availability and help members of your community!</h2>
@@ -87,7 +88,7 @@
 
             <!--Make sure the form has the autocomplete function switched off:-->
             <form autocomplete="off">
-                <div class="autocomplete" style="width:800px;">
+                <div class="autocomplete">
                     <input id="product" class="form-control" name="search" type="text" aria-label="Enter the name of a product you would like to find" 
                     placeholder="Enter the name of a product you would like to find ">
                 </div>
@@ -97,6 +98,7 @@
 
         </div>
       </div>
+      <div id="noResults"><br></div>
 
       <div class="container" id="searchResults">
         <p class="separator" id="foundProduct"> We limit our search results to 4 to promote social distancing and minimizing exposure...</p>
@@ -113,13 +115,13 @@
             <div class="block-pricing">
               <div class="table">
                 <h4>First result</h4>
-                <h2 id="FirstQuant">Quantity: </h2>
                 <ul class="list-unstyled">
-                  <li id="FirstStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="FirstStore"><b>Store: </b>address</li>
                   <li><button id="FirstGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
+                <h2 id="FirstQuant">Quantity: </h2>
                 <div class="table_btn">
-                    <input id="1stQuantVal" type="number" placeholder="Update quantity here" 
+                    <input id="1stQuantVal" type="number" min="0" max = "100" placeholder="Update quantity here" 
                     name="update" aria-label="Update quantity here">
                     <button id=update1stQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
@@ -131,13 +133,13 @@
             <div class="block-pricing">
               <div class="table">
                 <h4>Second result</h4>
-                <h2 id="SecondQuant">Quantity: </h2>
                 <ul class="list-unstyled">
-                  <li id="SecondStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="SecondStore"><b>Store: </b>address</li>
                   <li><button id="SecondGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
+                <h2 id="SecondQuant">Quantity: </h2>
                 <div class="table_btn">
-                    <input id="2ndQuantVal" type="number" placeholder="Update quantity here" 
+                    <input id="2ndQuantVal" type="number" min="0" max = "100" placeholder="Update quantity here" 
                     name="update" aria-label="Update quantity here">
                     <button id=update2ndQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
@@ -149,13 +151,13 @@
             <div class="block-pricing">
               <div class="table">
                 <h4>Third result</h4>
-                <h2 id="ThirdQuant">Quantity: </h2>
                 <ul class="list-unstyled">
-                  <li id="ThirdStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="ThirdStore"><b>Store: </b>address</li>
                   <li><button id="ThirdGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
+                <h2 id="ThirdQuant">Quantity: </h2>
                 <div class="table_btn">
-                    <input id="3rdQuantVal" type="number" placeholder="Update quantity here" 
+                    <input id="3rdQuantVal" type="number" min="0" max = "100" placeholder="Update quantity here" 
                     name="update" aria-label="Update quantity here">
                     <button id=update3rdQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
                 </div>
@@ -167,13 +169,13 @@
             <div class="block-pricing">
               <div class="table">
                 <h4>Fourth result</h4>
-                <h2 id="FourthQuant">Quantity: </h2>
                 <ul class="list-unstyled">
-                  <li id="FourthStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="FourthStore"><b>Store: </b>address</li>
                   <li><button id="FourthGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
+                <h2 id="FourthQuant">Quantity: </h2>
                 <div class="table_btn">
-                    <input id="4thQuantVal" type="number" placeholder="Update quantity here"
+                    <input id="4thQuantVal" type="number" min="0" max = "100" placeholder="Update quantity here"
                     name="update" aria-label="Update quantity here">
                     <button id=update4thQuant name="update" aria-label="Update" class="btn-get-started">Update</button>
 
@@ -181,6 +183,7 @@
             </div>
           </div>
         </div>
+        <div id="quantUpdateThanks"></div>
       </div>
         <div style="width: 640px; height: 480px; margin: 0; auto;" id="mapContainer1"></div>
     </section><!-- End Secondary Search Results UI Option -->

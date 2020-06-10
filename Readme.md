@@ -17,7 +17,7 @@ The design of UX/UI elements were adopted from the following:
 
 This project was designed and developed to address food insecurity created in marginalized communities, specifically food insecurity faced by WIC participants, by panic buying that arose from the COVID-19 pandemic. 
 
-![Landing Page](./figures/landing_page.png)
+![Landing Page](./figures/landing_page.PNG)
 
 There were two major goals defined in this project. We wanted to (1) make it easier for users to find and identify stores where the WIC eligible food they would like to purchase is in stock and (2) allow users to update store quantities in an easy and fast way. 
 
@@ -136,6 +136,66 @@ The error states include:
 * No store within radius: Currently, our database only contains stores in Seattle, WA. If the user is outside of the city or in an area where there are no stores available, it will be an error state. 
 * Unreasonable feedback value: The input box for quantity feedback is restricted such that no negative values are allowed. 
 
+### Project Deployment (`public/`)
+
+We use Firebase to deploy our website onto their server. First, follow the steps [here](https://firebase.google.com/docs/hosting/deploying) to set up the Firebase command line tools. Then follow the steps below:
+
+1. Run `./build_public.sh` to prepare for the deployment folder
+2. Run `firebase init`, and select `❯◉ Hosting: Configure and deploy Firebase Hosting sites`. 
+```
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/lpjiang/Courses/GroceryAssistants
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices.
+ ◯ Database: Deploy Firebase Realtime Database Rules
+ ◯ Firestore: Deploy rules and create indexes for Firestore
+ ◯ Functions: Configure and deploy Cloud Functions
+❯◉ Hosting: Configure and deploy Firebase Hosting sites
+ ◯ Storage: Deploy Cloud Storage security rules
+ ◯ Emulators: Set up local emulators for Firebase features
+```
+3. Select default (`public`) for the deployment folder and then answer `No` to all other questions:
+```
+=== Project Setup
+
+First, let's associate this project directory with a Firebase project.
+You can create multiple project aliases by running firebase use --add,
+but for now we'll just set up a default project.
+
+i  .firebaserc already has a default project, using grocery-assistants.
+
+=== Hosting Setup
+
+Your public directory is the folder (relative to your project directory) that
+will contain Hosting assets to be uploaded with firebase deploy. If you
+have a build process for your assets, use your build's output directory.
+
+? What do you want to use as your public directory? public
+? Configure as a single-page app (rewrite all urls to /index.html)? No
+? File public/404.html already exists. Overwrite? No
+i  Skipping write of public/404.html
+? File public/index.html already exists. Overwrite? No
+i  Skipping write of public/index.html
+
+i  Writing configuration info to firebase.json...
+i  Writing project information to .firebaserc...
+
+✔  Firebase initialization complete!
+```
+You should see something like above.
+
+4. Run `firebase serve` and `firebase deploy` to deploy the website.
 
 ## Limitations & Future Directions
 

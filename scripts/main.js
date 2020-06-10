@@ -238,8 +238,6 @@ async function rankStores() {
         if (d < 5000) {
             results.push(searchResults[i]);
             resultKeys.push(searchResultKeys[i]);
-        } else if (d > 5000) {
-            document.getElementById("rangeError").innerHTML="You are out of range.";
         }
     }
 

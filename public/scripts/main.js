@@ -51,7 +51,7 @@ async function searchAndRank() {
             searchResultKeys.push(data.key);
         })
     } else {
-        alert("Sorry, the product was not found. Please make sure to choose an item from the drop-down list.")
+        document.getElementById("noResults").innerHTML = "Sorry, the product was not found. Please make sure to choose an item from the drop-down list."
     }
 
     // update product name
@@ -238,8 +238,16 @@ async function rankStores() {
         if (d < 5000) {
             results.push(searchResults[i]);
             resultKeys.push(searchResultKeys[i]);
+        } else if (d > 5000) {
+            document.getElementById("rangeError").innerHTML="You are out of range.";
         }
     }
+
+    // if no stores
+    if (results.length == 0) {
+        // alert or text
+    }    
+
 
     result_tuple = [];
     for (var i = 0; i < results.length; i++) {
@@ -328,7 +336,7 @@ function updateFirstQuantity() {
     updates["/data/" + key] = new_first_quant;
 
     firebase.database().ref().update(updates);
-    alert("Thank you for the feedback!");
+    document.getElementById("quantUpdateThanks").innerHTML = "Thank you for the feedback!";
     document.getElementById("1stQuantVal").reset();
 }
 
@@ -341,7 +349,7 @@ function updateSecondQuantity() {
     updates["/data/" + key] = new_second_quant;
 
     firebase.database().ref().update(updates);
-    alert("Thank you for the feedback!");
+    document.getElementById("quantUpdateThanks").innerHTML = "Thank you for the feedback!";
     document.getElementById("2ndQuantVal").reset();
 }
 
@@ -354,7 +362,7 @@ function updateThirdQuantity() {
     updates["/data/" + key] = new_third_quant;
 
     firebase.database().ref().update(updates);
-    alert("Thank you for the feedback!");
+    document.getElementById("quantUpdateThanks").innerHTML = "Thank you for the feedback!";
     document.getElementById("3rdQuantVal").reset();
 }
 
@@ -367,7 +375,7 @@ function updateFourthQuantity() {
     updates["/data/" + key] = new_fourth_quant;
 
     firebase.database().ref().update(updates);
-    alert("Thank you for the feedback!");
+    document.getElementById("quantUpdateThanks").innerHTML = "Thank you for the feedback!";
     document.getElementById("4thQuantVal").reset();
 }
 

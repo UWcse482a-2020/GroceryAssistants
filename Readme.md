@@ -1,5 +1,27 @@
 # eGroceryAssistant 
 
+## Project Page
+Please visit the project page for additional details at [https://grocery-assistants.web.app/](https://grocery-assistants.web.app/)
+
+## Project Members and Affiliations
+This project was developed within the Paul G. Allen School for Computer Science and Engineering at the University of Washington as part of the capstone Software Design to empower Underserved Populations. Mariam Mayanja, Geovani Castro, and [Preston Jiang](https://homes.cs.washington.edu/~prestonj/) co-designed the project with help from needs experts such as contacts from the Department of Health and Human resources and WIC participants who will remain nameless for sake of anonymity. 
+
+The design of UX/UI elements were adopted from the following:
+
+* Template Name: eStartup
+* Template URL: https://bootstrapmade.com/estartup-bootstrap-landing-page-template/ 
+* Author: BootstrapMade.com 
+* License: https://bootstrapmade.com/license/ 
+
+## Project Goals and Mission
+
+This project was designed and developed to address food insecurity created in marginalized communities, specifically food insecurity faced by WIC participants, by panic buying that arose from the COVID-19 pandemic. 
+
+![Landing Page](./figures/landing_page.PNG)
+
+There were two major goals defined in this project. We wanted to (1) make it easier for users to find and identify stores where the WIC eligible food they would like to purchase is in stock and (2) allow users to update store quantities in an easy and fast way. 
+
+
 ## Project Development
 
 Overall, our project aims to make shopping for WIC-eligible food products easier during public emergencies by providing product availability estimates using crowdsourced data. Our web application recommends/ranks WIC vendors to the users based on their location and the estimated amount of the product of interest in store, calculated from user feedback. In the following section, we first give an overview of the project structure, then elaborate on each part of the project development and how to configure them for reproducibility. 
@@ -54,7 +76,7 @@ The main libraries & services we used include:
 * [Firebase](https://firebase.google.com/) as the backend for reading/writing JSON entries and deployment
 * [HERE Maps](https://www.here.com/) for calculating driving locations 
 
-### Data Preprocessing & Uploading
+### Data Preprocessing & Uploading (`Data_Exploration`)
 
 Before uploading the database to Firebase, we first preprocessed the acquired data file for better organizations to suit our application. In addition, we used web scraping techniques in Python to acquire a list of WIC food vendors from the [King County website](https://www.kingcounty.gov/depts/health/child-teen-health/women-infants-children.aspx#locations). Because Firebase free-tier plan only allows **one** database to be uploaded, the last step is to combine the food product database with the store & quantity database into one. This inevitably increases the size of the database and leads to slow performance in searching. 
 
@@ -90,5 +112,95 @@ The last step is to upload the JSON file to Firebase's realtime database. The fo
   }
 }
 ```
-This concludes the data cleaning and Firebase database setup. We introduce the project main logic next.
+This concludes the data cleaning and Firebase database setup. We introduce the project backend (main logic) next.
 
+### Project Backend and Error States (`scripts/main.js`)
+
+The main functionalities of the backend include:
+
+* Acquiring users' geolocation:
+  This is promptedly immediately after the user opens the website, which is needed for store ranking later.
+* String search to match product description: 
+  The backend takes user input and returns a list of relevant food product based on the descrption. Unfortunately, the official documentation of Firebase indicates that [full-string search is not supported in Firebase](https://firebase.google.com/docs/firestore/solutions/search). Thus, we are limited to matching the *beginning* of the descrption based on the user input (e.g. "Whole Wheat Bread" 
+  will be returned by a search with "Whole", not "Wheat"). 
+* Autocomplete:
+  Because of this searching limitation, the course staff suggested that having an autocomplete feature when the user types in the search bar would be useful to receive immediate feedback. We took [this implementation](https://www.w3schools.com/howto/howto_js_autocomplete.asp) of an autocomplete search bar and modified it so that every keyboard input triggers a search query in the Firebase database.
+* Store ranking: 
+  Once the user select a product from the previous step, the backend takes the input and searches for all eligible stores. First, all stores outside of six kilometers (by driving) from the user are excluded. To implement this functionality, we used HERE Maps API to calculate the shortest driving location between the user and each store. For those within the radius, we rank the stores by the quantity of products left and then present the information for the top four stores. We also display a map snippet of the stores recommended with markers.
+* User feedback:
+  If the user finds the quantity we provided about the product at a specific store is not accurate, s/he has the option to give us feedback through the input box. Once the user selects "Update", the JSON entry in our database is updated in realtime.
+
+The error states include:
+
+* Product not found: If no products were found by the user's search. With the autocomplete functionality that allows the user to choose a specific product, this should be a rare error state.
+* No store within radius: Currently, our database only contains stores in Seattle, WA. If the user is outside of the city or in an area where there are no stores available, it will be an error state. 
+* Unreasonable feedback value: The input box for quantity feedback is restricted such that no negative values are allowed. 
+
+### Project Deployment (`public/`)
+
+We use Firebase to deploy our website onto their server. First, follow the steps [here](https://firebase.google.com/docs/hosting/deploying) to set up the Firebase command line tools. Then follow the steps below:
+
+1. Run `./build_public.sh` to prepare for the deployment folder
+2. Run `firebase init`, and select `❯◉ Hosting: Configure and deploy Firebase Hosting sites`. 
+```
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/lpjiang/Courses/GroceryAssistants
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+? Which Firebase CLI features do you want to set up for this folder? Press Space to select features, then Enter to confirm your choices.
+ ◯ Database: Deploy Firebase Realtime Database Rules
+ ◯ Firestore: Deploy rules and create indexes for Firestore
+ ◯ Functions: Configure and deploy Cloud Functions
+❯◉ Hosting: Configure and deploy Firebase Hosting sites
+ ◯ Storage: Deploy Cloud Storage security rules
+ ◯ Emulators: Set up local emulators for Firebase features
+```
+3. Select default (`public`) for the deployment folder and then answer `No` to all other questions:
+```
+=== Project Setup
+
+First, let's associate this project directory with a Firebase project.
+You can create multiple project aliases by running firebase use --add,
+but for now we'll just set up a default project.
+
+i  .firebaserc already has a default project, using grocery-assistants.
+
+=== Hosting Setup
+
+Your public directory is the folder (relative to your project directory) that
+will contain Hosting assets to be uploaded with firebase deploy. If you
+have a build process for your assets, use your build's output directory.
+
+? What do you want to use as your public directory? public
+? Configure as a single-page app (rewrite all urls to /index.html)? No
+? File public/404.html already exists. Overwrite? No
+i  Skipping write of public/404.html
+? File public/index.html already exists. Overwrite? No
+i  Skipping write of public/index.html
+
+i  Writing configuration info to firebase.json...
+i  Writing project information to .firebaserc...
+
+✔  Firebase initialization complete!
+```
+You should see something like above.
+
+4. Run `firebase serve` and `firebase deploy` to deploy the website.
+
+## Limitations & Future Directions
+
+We have encountered a few limitations due to time, technical ability, and data constraints. First and foremost, there is no preexisting data that we have access to which will allow us to start pre-populating the crowdsourced data. In a meeting with the Department of Health, Mariam found that there is an API of all past WIC purchases that include location, a timestamp, and even who made the purchase. While this data would be tremendously beneficial to our database, it provides an ethical concern for the Department of Health. Since this data is so rich, it could be easily exploited by big companies like Nestle or Kroger to boost sales. Therefore, we do not have any pre-existing data to aggregate our crowdsourcing platform. 
+
+Most of the technical limitations our application faces are due to the free-tier plan of Firebase. As mentioned above, full-text string search is not supported, and the few alternatives suggested by Firebase are also paid services. In addition, the free-tier Firebase plan only allows one database to be uploaded. This forced us to put all of the information together joinly in one table, which drastically increased the number of entries to be searched each time.  
+
+With more resources available, future endeavors can be focused on (1) more efficient & flexible searching with multiple databases; (2) more options or filters to limit the number of entried returned; (3) supporting a larger area of stores and allowing the user to provide information on products that do not yet exist in our database.

@@ -69,6 +69,18 @@ span {
   letter-spacing: 1px;
 }
 
+#noResults, #rangeError{
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}
+
+#quantUpdateThanks {
+    color: blue;
+    font-size: 20px;
+    text-align: center;
+}
+
 .img-fluid {
   height: 60px;
   margin-bottom: 30px;
@@ -306,6 +318,14 @@ span {
 
 #hero .btns a:hover {
   color: rgb(61, 104, 50) ;
+}
+
+#searchResults {
+    margin-top: 80px;
+}
+
+.storeAddresses {
+    color: black;
 }
 
 /*--------------------------------------------------------------
@@ -559,7 +579,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 }
 
 .section-title {
-  margin-bottom: 80px;
+  margin-bottom: 0px;
 }
 
 @media (max-width: 992px) {
@@ -579,6 +599,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 .section-title .separator {
   margin: 0;
+  margin-top: 80px;
 }
 
 .separator {
@@ -1024,6 +1045,7 @@ body.mobile-nav-active #mobile-nav-toggle i {
 
 #pricing .block-pricing h2 {
   margin-bottom: 30px;
+  color: gray;
 }
 
 #pricing .block-pricing ul {

@@ -58,6 +58,7 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="wow fadeIn">
+    <div id="rangeError"></div>
     <div class="hero-container">
       <h1>Welcome to the Panic Shopping Assistant</h1>
       <h2>Where you can find product availability and help members of your community!</h2>
@@ -97,6 +98,7 @@
 
         </div>
       </div>
+      <div id="noResults"><br></div>
 
       <div class="container" id="searchResults">
         <p class="separator" id="foundProduct"> We limit our search results to 4 to promote social distancing and minimizing exposure...</p>
@@ -114,7 +116,7 @@
               <div class="table">
                 <h4>First result</h4>
                 <ul class="list-unstyled">
-                  <li id="FirstStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="FirstStore"><b>Store: </b>address</li>
                   <li><button id="FirstGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <h2 id="FirstQuant">Quantity: </h2>
@@ -132,7 +134,7 @@
               <div class="table">
                 <h4>Second result</h4>
                 <ul class="list-unstyled">
-                  <li id="SecondStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="SecondStore"><b>Store: </b>address</li>
                   <li><button id="SecondGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <h2 id="SecondQuant">Quantity: </h2>
@@ -150,7 +152,7 @@
               <div class="table">
                 <h4>Third result</h4>
                 <ul class="list-unstyled">
-                  <li id="ThirdStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="ThirdStore"><b>Store: </b>address</li>
                   <li><button id="ThirdGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <h2 id="ThirdQuant">Quantity: </h2>
@@ -168,7 +170,7 @@
               <div class="table">
                 <h4>Fourth result</h4>
                 <ul class="list-unstyled">
-                  <li id="FourthStore"><b>Store: </b>address</li>
+                  <li class="storeAddresses" id="FourthStore"><b>Store: </b>address</li>
                   <li><button id="FourthGMap" class="btn-get-started">See on maps</button></li>
                 </ul>
                 <h2 id="FourthQuant">Quantity: </h2>
@@ -181,6 +183,7 @@
             </div>
           </div>
         </div>
+        <div id="quantUpdateThanks"></div>
       </div>
         <div style="width: 640px; height: 480px; margin: 0; auto;" id="mapContainer1"></div>
     </section><!-- End Secondary Search Results UI Option -->

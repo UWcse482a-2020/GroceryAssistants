@@ -243,7 +243,8 @@ async function rankStores() {
 
     // if no stores
     if (results.length == 0) {
-        // alert or text
+        document.getElementById("noResults").innerHTML = "Sorry, no store was not found to be available within 5 km radius from you."
+        return;
     }    
 
 

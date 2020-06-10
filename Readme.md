@@ -1,5 +1,27 @@
 # eGroceryAssistant 
 
+## Project Page
+Please visit the project page for additional details at [https://grocery-assistants.web.app/](https://grocery-assistants.web.app/)
+
+## Project Members and Affiliations
+This project was developed within the Paul G. Allen School for Computer Science and Engineering at the University of Washington as part of the capstone Software Design to empower Underserved Populations. Mariam Mayanja, Geovani Castro, and [Preston Jiang](https://homes.cs.washington.edu/~prestonj/) co-designed the project with help from needs experts such as contacts from the Department of Health and Human resources and WIC participants who will remain nameless for sake of anonymity. 
+
+The design of UX/UI elements were adopted from the following:
+
+* Template Name: eStartup
+* Template URL: https://bootstrapmade.com/estartup-bootstrap-landing-page-template/ 
+* Author: BootstrapMade.com 
+* License: https://bootstrapmade.com/license/ 
+
+## Project Goals and Mission
+
+This project was designed and developed to address food insecurity created in marginalized communities, specifically food insecurity faced by WIC participants, by panic buying that arose from the COVID-19 pandemic. 
+
+![Landing Page](./figures/landing_page.png)
+
+There were two major goals defined in this project. We wanted to (1) make it easier for users to find and identify stores where the WIC eligible food they would like to purchase is in stock and (2) allow users to update store quantities in an easy and fast way. 
+
+
 ## Project Development
 
 Overall, our project aims to make shopping for WIC-eligible food products easier during public emergencies by providing product availability estimates using crowdsourced data. Our web application recommends/ranks WIC vendors to the users based on their location and the estimated amount of the product of interest in store, calculated from user feedback. In the following section, we first give an overview of the project structure, then elaborate on each part of the project development and how to configure them for reproducibility. 

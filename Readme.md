@@ -132,8 +132,10 @@ The main functionalities of the backend include:
 
 The error states include:
 
-* Product not found: If no products were found by the user's search. With the autocomplete functionality that allows the user to choose a specific product, this should be a rare error state.
-* No store within radius: Currently, our database only contains stores in Seattle, WA. If the user is outside of the city or in an area where there are no stores available, it will be an error state. 
+* Product not found: If no products were found by the user's search. With the autocomplete functionality that allows the user to choose a specific product, this should be a rare error state. A red text message is displayed.
+![SearchError](./figures/searchError.png)
+* No store within radius: Currently, our database only contains stores in Seattle, WA. If the user is outside of the city or in an area where there are no stores available within 5 km, it will be an error state. A red text message is displayed. 
+![RadiusError](./figures/radius.png)
 * Unreasonable feedback value: The input box for quantity feedback is restricted such that no negative values are allowed. 
 
 ### Project Deployment (`public/`)
@@ -205,4 +207,39 @@ Most of the technical limitations our application faces are due to the free-tier
 
 With more resources available, future endeavors can be focused on (1) more efficient & flexible searching with multiple databases; (2) more options or filters to limit the number of entried returned; (3) supporting a larger area of stores and allowing the user to provide information on products that do not yet exist in our database.
 
+## Storyboard 
+
+### Scenario 1
+![Story1](./figures/storyboard1.png)
+
+### Scenario 2
+![Story2](./figures/storyboard2.png)
+
 ## User Manual
+
+Quick links:
+* Link to the live website: https://grocery-assistants.web.app/
+* Link to the GitHub: https://github.com/UWcse482a-2020/GroceryAssistants
+
+The following steps detail how one can navigate, test, and otherwise interact with the deployed version of eShoppingAssistant.
+
+1. Visit this website: https://grocery-assistants.web.app/
+2. Select allow for your location as indicated below. 
+![Step2](./figures/Step2.png)
+3. Click on the green “Search for a Product” button
+![Step3](./figures/Step3.png)
+4. Using the search bar, enter the food that you would like to search for.
+![Step4](./figures/Step4.png)
+5. Example: type in "Celery", and choose an iterm you are interested in from the drop-down list
+![Step5](./figures/Step5.png)
+6. After selecting the product, click "Search". And then the search results will show.
+![Step6](./figures/Step6.png)
+7. If desired, update the quantity of the product you have just searched by first entering the new quantity into the box then selecting “Update”. Next time when you search for the product, the quantity will be updated and stores will be re-ranked for recommendations. 
+![Step7](./figures/Step7.png)
+8. At the bottom of screen, a map snippets shows the 4 locations of the recommended stores.
+![Step8](./figures/Step8.png)
+
+If you search for a product that is not in our database, you will see an error message like this:
+![SearchError](./figures/searchError.png)
+If no store was found to be within the 5 km radius from you, you will see an error message like this: 
+![RadiusError](./figures/radius.png)

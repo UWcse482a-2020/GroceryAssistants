@@ -72,4 +72,23 @@ The final database structure is shown as follows (in table format for readabilit
 
 To reproduce the results, simply run all the Jupyter notebooks mentioned above in order. 
 
-The last step to 
+The last step is to upload the JSON file to Firebase's realtime database. The following steps provide intrsuctions on this process:
+
+1. Follow the instructions [here](https://firebase.google.com/docs/web/setup) to set up a Firebase project.
+2. Go to the Firebase project console.
+3. Select `Database` under the `Develop` navigation bar on the left, and then `Realtime Database` in the main page.
+4. Select `Import JSON` and choose `data/quantities.json`. Wait until the upload completes.
+5. Go to `Rules` and paste the following to allow read/write access and use `Description` as the index key for searching. 
+```
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "data": {
+      ".indexOn": ["Description"]
+    }
+  }
+}
+```
+This concludes the data cleaning and Firebase database setup. We introduce the project main logic next.
+

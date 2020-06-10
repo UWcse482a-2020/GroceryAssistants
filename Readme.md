@@ -54,7 +54,7 @@ The main libraries & services we used include:
 * [Firebase](https://firebase.google.com/) as the backend for reading/writing JSON entries and deployment
 * [HERE Maps](https://www.here.com/) for calculating driving locations 
 
-### Data Preprocessing & Uploading
+### Data Preprocessing & Uploading (`Data_Exploration`)
 
 Before uploading the database to Firebase, we first preprocessed the acquired data file for better organizations to suit our application. In addition, we used web scraping techniques in Python to acquire a list of WIC food vendors from the [King County website](https://www.kingcounty.gov/depts/health/child-teen-health/women-infants-children.aspx#locations). Because Firebase free-tier plan only allows **one** database to be uploaded, the last step is to combine the food product database with the store & quantity database into one. This inevitably increases the size of the database and leads to slow performance in searching. 
 
@@ -90,5 +90,31 @@ The last step is to upload the JSON file to Firebase's realtime database. The fo
   }
 }
 ```
-This concludes the data cleaning and Firebase database setup. We introduce the project main logic next.
+This concludes the data cleaning and Firebase database setup. We introduce the project backend (main logic) next.
 
+### Project Backend and Error States (`scripts/main.js`)
+
+The main functionalities of the backend include:
+
+* Acquiring users' geolocation:
+  This is promptedly immediately after the user opens the website, which is needed for store ranking later.
+* String search to match product description: 
+  The backend takes user input and returns a list of relevant food product based on the descrption. Unfortunately, the official documentation of Firebase indicates that [full-string search is not supported in Firebase](https://firebase.google.com/docs/firestore/solutions/search). Thus, we are limited to matching the *beginning* of the descrption based on the user input (e.g. "Whole Wheat Bread" 
+  will be returned by a search with "Whole", not "Wheat"). 
+* Autocomplete:
+  Because of this searching limitation, the course staff suggested that having an autocomplete feature when the user types in the search bar would be useful to receive immediate feedback. We took [this implementation](https://www.w3schools.com/howto/howto_js_autocomplete.asp) of an autocomplete search bar and modified it so that every keyboard input triggers a search query in the Firebase database.
+* Store ranking: 
+  Once the user select a product from the previous step, the backend takes the input and searches for all eligible stores. First, all stores outside of six kilometers (by driving) from the user are excluded. To implement this functionality, we used HERE Maps API to calculate the shortest driving location between the user and each store. For those within the radius, we rank the stores by the quantity of products left and then present the information for the top four stores. We also display a map snippet of the stores recommended with markers.
+* User feedback:
+  If the user finds the quantity we provided about the product at a specific store is not accurate, s/he has the option to give us feedback through the input box. Once the user selects "Update", the JSON entry in our database is updated in realtime.
+
+The error states include:
+
+* Product not found: If no products were found by the user's search. With the autocomplete functionality that allows the user to choose a specific product, this should be a rare error state.
+* No store within radius: Currently, our database only contains stores in Seattle, WA. If the user is outside of the city or in an area where there are no stores available, it will be an error state. 
+* Unreasonable feedback value: The input box for quantity feedback is restricted such that no negative values are allowed. 
+
+
+## Limitations & Future Directions
+
+* 
